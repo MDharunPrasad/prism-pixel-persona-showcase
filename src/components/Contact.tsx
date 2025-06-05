@@ -1,16 +1,21 @@
 
 import { useState } from "react";
-import { Mail, Phone, Github, ExternalLink, Send, CheckCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, ArrowUp } from "lucide-react";
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    message: ""
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+    console.log("Form submitted:", formData);
+    alert("Thank you for your message! I'll get back to you soon.");
+    setFormData({ name: "", email: "", message: "" });
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -19,194 +24,159 @@ export const Contact = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 3000);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <section id="contact" className="py-32 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-20">
-          <h2 className="text-6xl font-black bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent mb-8 tracking-wide">
-            LET'S CONNECT
+    <section id="contact" className="py-24 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-r from-cyan-400/10 to-violet-400/10 rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-56 h-56 bg-gradient-to-r from-fuchsia-400/10 to-emerald-400/10 rounded-full blur-2xl animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-black bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-6 tracking-wide">
+            GET IN TOUCH
           </h2>
-          <p className="text-2xl text-white/70 max-w-4xl mx-auto font-light leading-relaxed">
-            Ready to collaborate on extraordinary projects? Let's create something amazing together
+          <p className="text-xl text-white/70 max-w-3xl mx-auto font-light leading-relaxed">
+            Ready to bring your ideas to life? Let's create something amazing together.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Contact Information */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Info */}
           <div className="space-y-8">
-            <h3 className="text-4xl font-bold text-white mb-8 tracking-wide">Get In Touch</h3>
+            <h3 className="text-2xl font-bold text-white mb-6">Let's Connect</h3>
             
             <div className="space-y-6">
-              <a 
-                href="mailto:dharunprasad9494@gmail.com"
-                className="flex items-center group p-6 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-emerald-400/50 hover:scale-105 transition-all duration-300 shadow-xl"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300">
-                  <Mail className="text-white" size={24} />
+              <div className="flex items-center space-x-4 group">
+                <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Mail className="text-white" size={20} />
                 </div>
                 <div>
-                  <div className="text-white font-bold text-xl mb-1">Email</div>
-                  <div className="text-emerald-400 text-lg group-hover:text-emerald-300 transition-colors">
-                    dharunprasad9494@gmail.com
-                  </div>
+                  <p className="text-white/60 text-sm">Email</p>
+                  <a href="mailto:dharunprasad@example.com" className="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">
+                    dharunprasad@example.com
+                  </a>
                 </div>
-              </a>
+              </div>
 
-              <a 
-                href="tel:9677689494"
-                className="flex items-center group p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-cyan-400/50 hover:scale-105 transition-all duration-300 shadow-xl"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300">
-                  <Phone className="text-white" size={24} />
+              <div className="flex items-center space-x-4 group">
+                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Phone className="text-white" size={20} />
                 </div>
                 <div>
-                  <div className="text-white font-bold text-xl mb-1">Phone</div>
-                  <div className="text-cyan-400 text-lg group-hover:text-cyan-300 transition-colors">
-                    +91 9677689494
-                  </div>
+                  <p className="text-white/60 text-sm">Phone</p>
+                  <a href="tel:+1234567890" className="text-white font-semibold hover:text-violet-400 transition-colors duration-300">
+                    +91 12345 67890
+                  </a>
                 </div>
-              </a>
+              </div>
 
-              <a 
-                href="https://github.com/MDharunPrasad"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center group p-6 bg-gradient-to-r from-violet-500/10 to-purple-500/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-violet-400/50 hover:scale-105 transition-all duration-300 shadow-xl"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300">
-                  <Github className="text-white" size={24} />
+              <div className="flex items-center space-x-4 group">
+                <div className="w-12 h-12 bg-gradient-to-r from-fuchsia-500 to-emerald-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="text-white" size={20} />
                 </div>
-                <div className="flex-1">
-                  <div className="text-white font-bold text-xl mb-1">GitHub</div>
-                  <div className="text-violet-400 text-lg group-hover:text-violet-300 transition-colors">
-                    MDharunPrasad
-                  </div>
+                <div>
+                  <p className="text-white/60 text-sm">Location</p>
+                  <p className="text-white font-semibold">
+                    Chennai, Tamil Nadu, India
+                  </p>
                 </div>
-                <ExternalLink className="text-white/40 group-hover:text-violet-400 transition-colors duration-300" size={20} />
-              </a>
+              </div>
+            </div>
 
-              <a 
-                href="https://www.linkedin.com/in/dharun-prasad-m-328974228/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center group p-6 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-blue-400/50 hover:scale-105 transition-all duration-300 shadow-xl"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300">
-                  <div className="text-white text-2xl font-bold">in</div>
-                </div>
-                <div className="flex-1">
-                  <div className="text-white font-bold text-xl mb-1">LinkedIn</div>
-                  <div className="text-blue-400 text-lg group-hover:text-blue-300 transition-colors">
-                    Dharun Prasad M
-                  </div>
-                </div>
-                <ExternalLink className="text-white/40 group-hover:text-blue-400 transition-colors duration-300" size={20} />
-              </a>
+            {/* Social Links */}
+            <div className="pt-6 border-t border-white/10">
+              <h4 className="text-lg font-semibold text-white mb-4">Follow Me</h4>
+              <div className="flex space-x-4">
+                {['LinkedIn', 'GitHub', 'Twitter', 'Instagram'].map((social) => (
+                  <a
+                    key={social}
+                    href="#"
+                    className="px-4 py-2 bg-white/10 backdrop-blur-xl rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300 text-sm"
+                  >
+                    {social}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
-            <h3 className="text-4xl font-bold text-white mb-8 tracking-wide">Send Message</h3>
-            
+          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-white/90 mb-3 font-semibold">Name</label>
-                <input 
-                  type="text" 
+                <label htmlFor="name" className="block text-white/80 text-sm font-medium mb-2">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/15 transition-all duration-300"
+                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
                   placeholder="Your Name"
                 />
               </div>
-              
+
               <div>
-                <label className="block text-white/90 mb-3 font-semibold">Email</label>
-                <input 
-                  type="email" 
+                <label htmlFor="email" className="block text-white/80 text-sm font-medium mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/15 transition-all duration-300"
+                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
                   placeholder="your.email@example.com"
                 />
               </div>
 
               <div>
-                <label className="block text-white/90 mb-3 font-semibold">Subject</label>
-                <input 
-                  type="text" 
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/15 transition-all duration-300"
-                  placeholder="Project Discussion"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-white/90 mb-3 font-semibold">Message</label>
-                <textarea 
-                  rows={5}
+                <label htmlFor="message" className="block text-white/80 text-sm font-medium mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-cyan-400 focus:bg-white/15 transition-all duration-300 resize-none"
+                  rows={5}
+                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 resize-none"
                   placeholder="Tell me about your project..."
-                ></textarea>
+                />
               </div>
-              
-              <button 
+
+              <button
                 type="submit"
-                disabled={isSubmitting || isSubmitted}
-                className={`w-full px-8 py-5 rounded-2xl font-bold text-lg transition-all duration-500 ${
-                  isSubmitted 
-                    ? 'bg-green-500 text-white' 
-                    : 'bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 text-white hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25'
-                } ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className="w-full bg-gradient-to-r from-cyan-500 to-violet-500 text-white font-semibold py-4 px-6 rounded-xl hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25 flex items-center justify-center space-x-2"
               >
-                {isSubmitted ? (
-                  <span className="flex items-center justify-center">
-                    <CheckCircle className="mr-2" size={20} />
-                    Message Sent!
-                  </span>
-                ) : isSubmitting ? (
-                  <span className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Sending...
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center">
-                    <Send className="mr-2" size={20} />
-                    Send Message
-                  </span>
-                )}
+                <Send size={18} />
+                <span>Send Message</span>
               </button>
             </form>
           </div>
+        </div>
+
+        {/* Go to Top Button */}
+        <div className="flex justify-center mt-16">
+          <button
+            onClick={scrollToTop}
+            className="group bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-violet-500/25 hover:scale-105 flex items-center space-x-2"
+          >
+            <ArrowUp size={18} />
+            <span>Back to Top</span>
+          </button>
         </div>
       </div>
     </section>
