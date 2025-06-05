@@ -12,8 +12,8 @@ export const Hero = () => {
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
       
-      const xRotation = ((clientY - innerHeight / 2) / innerHeight) * 20;
-      const yRotation = ((clientX - innerWidth / 2) / innerWidth) * 20;
+      const xRotation = ((clientY - innerHeight / 2) / innerHeight) * 10;
+      const yRotation = ((clientX - innerWidth / 2) / innerWidth) * 10;
       
       heroRef.current.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
     };
@@ -22,58 +22,111 @@ export const Hero = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  const scrollToNext = () => {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const viewResume = () => {
+    // You can replace this with actual resume URL
+    window.open('/resume.pdf', '_blank');
+  };
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950">
+      {/* Animated background particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(50)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
       <div 
         ref={heroRef}
-        className="text-center z-10 transition-transform duration-100 ease-out"
+        className="text-center z-10 transition-transform duration-200 ease-out"
       >
         <div className="animate-fade-in">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent animate-pulse">
-              Dharun
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Prasad M
-            </span>
-          </h1>
+          {/* Name with stunning typography */}
+          <div className="mb-8 relative">
+            <h1 className="text-8xl md:text-9xl font-black tracking-wider">
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent drop-shadow-2xl">
+                  DHARUN
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-violet-400/20 to-fuchsia-400/20 blur-3xl scale-110 animate-pulse"></div>
+              </span>
+            </h1>
+            <h1 className="text-6xl md:text-7xl font-light tracking-[0.3em] mt-4">
+              <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+                PRASAD M
+              </span>
+            </h1>
+          </div>
           
-          <div className="text-xl md:text-2xl text-white/80 mb-8 animate-slide-in-right delay-300">
-            <div className="typing-effect">
-              <span>Software Engineer</span>
-              <span className="cursor">|</span>
+          {/* Animated role */}
+          <div className="text-2xl md:text-3xl text-white/90 mb-12 font-light tracking-wide">
+            <div className="typing-container overflow-hidden border-r-4 border-cyan-400 animate-pulse">
+              <span className="typing-text">Creative Software Engineer & Digital Artist</span>
             </div>
           </div>
           
-          <p className="text-lg text-white/60 max-w-2xl mx-auto mb-12 animate-fade-in delay-500">
-            Crafting innovative digital experiences with cutting-edge technology and creative design
+          {/* Description */}
+          <p className="text-xl text-white/70 max-w-3xl mx-auto mb-16 leading-relaxed font-light">
+            Crafting immersive digital experiences through innovative code, stunning design, and cutting-edge technology
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-scale-in delay-700">
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25">
-              <span className="relative z-10">View My Work</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+          {/* Action buttons */}
+          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+            <button 
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              className="group relative px-12 py-5 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-2xl text-white font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-110 hover:rotate-2 shadow-2xl hover:shadow-cyan-500/25"
+            >
+              <span className="relative z-10">Explore My Universe</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-violet-600 to-fuchsia-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+              <div className="absolute inset-0 bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-2xl"></div>
             </button>
             
-            <button className="group px-8 py-4 border-2 border-white/20 rounded-full text-white font-semibold backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:scale-105">
-              <span>Get In Touch</span>
+            <button 
+              onClick={viewResume}
+              className="group relative px-12 py-5 border-2 border-emerald-400 rounded-2xl text-emerald-400 font-bold text-lg backdrop-blur-xl bg-emerald-400/10 transition-all duration-500 hover:bg-emerald-400 hover:text-black hover:scale-110 hover:-rotate-2 shadow-xl hover:shadow-emerald-400/25"
+            >
+              <span className="relative z-10">View Resume</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Floating 3D Elements */}
+      {/* Floating 3D elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="floating-cube absolute top-20 left-10 w-16 h-16 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg backdrop-blur-sm animate-float"></div>
-        <div className="floating-cube absolute top-40 right-20 w-12 h-12 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg backdrop-blur-sm animate-float delay-1000"></div>
-        <div className="floating-cube absolute bottom-40 left-20 w-20 h-20 bg-gradient-to-r from-blue-500/20 to-pink-500/20 rounded-lg backdrop-blur-sm animate-float delay-500"></div>
+        <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-cyan-400/20 to-violet-400/20 rounded-3xl backdrop-blur-sm animate-float border border-white/10 shadow-2xl"></div>
+        <div className="absolute top-60 right-32 w-24 h-24 bg-gradient-to-r from-fuchsia-400/20 to-emerald-400/20 rounded-full backdrop-blur-sm animate-float delay-1000 border border-white/10 shadow-2xl"></div>
+        <div className="absolute bottom-60 left-32 w-40 h-40 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-2xl backdrop-blur-sm animate-float delay-500 border border-white/10 shadow-2xl transform rotate-45"></div>
+        <div className="absolute bottom-32 right-20 w-28 h-28 bg-gradient-to-r from-pink-400/20 to-cyan-400/20 rounded-full backdrop-blur-sm animate-float delay-2000 border border-white/10 shadow-2xl"></div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <ChevronDown className="text-white/60" size={32} />
-      </div>
+      {/* Enhanced scroll indicator */}
+      <button 
+        onClick={scrollToNext}
+        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 group cursor-pointer animate-bounce hover:animate-none"
+      >
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-white/60 text-sm font-light tracking-wider">SCROLL TO DISCOVER</span>
+          <div className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/20 transition-all duration-300">
+            <ChevronDown className="text-white/60 group-hover:text-cyan-400 transition-colors duration-300" size={24} />
+          </div>
+        </div>
+      </button>
     </section>
   );
 };

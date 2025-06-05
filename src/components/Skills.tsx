@@ -4,33 +4,50 @@ export const Skills = () => {
   const skillsRef = useRef<HTMLDivElement>(null);
 
   const technicalSkills = [
-    { name: "Java", level: 90, color: "from-orange-500 to-red-500" },
-    { name: "HTML5", level: 95, color: "from-orange-500 to-red-600" },
-    { name: "CSS3", level: 90, color: "from-blue-500 to-blue-600" },
-    { name: "JavaScript", level: 85, color: "from-yellow-400 to-yellow-500" },
-    { name: "React.js", level: 80, color: "from-blue-400 to-cyan-400" },
-    { name: "MongoDB", level: 75, color: "from-green-500 to-green-600" }
+    { name: "Java", icon: "☕", color: "from-orange-500 to-red-500" },
+    { name: "HTML5", icon: "🌐", color: "from-orange-500 to-red-600" },
+    { name: "CSS3", icon: "🎨", color: "from-blue-500 to-blue-600" },
+    { name: "JavaScript", icon: "⚡", color: "from-yellow-400 to-yellow-500" },
+    { name: "React.js", icon: "⚛️", color: "from-blue-400 to-cyan-400" },
+    { name: "MongoDB", icon: "🍃", color: "from-green-500 to-green-600" }
   ];
 
-  const tools = ["Git", "GitHub", "Figma", "Canva"];
-  const softSkills = ["Innovation", "Emotional Intelligence", "Leadership", "Perseverance"];
-  const otherSkills = ["Typing", "Editing", "Digital Content Creation", "Photography & Videography"];
+  const tools = [
+    { name: "Git", icon: "🔧" },
+    { name: "GitHub", icon: "🐙" },
+    { name: "Figma", icon: "🎯" },
+    { name: "Canva", icon: "✨" }
+  ];
+
+  const softSkills = [
+    { name: "Innovation", icon: "💡" },
+    { name: "Emotional Intelligence", icon: "🧠" },
+    { name: "Leadership", icon: "👑" },
+    { name: "Perseverance", icon: "🚀" }
+  ];
+
+  const otherSkills = [
+    { name: "Digital Content Creation", icon: "🎬" },
+    { name: "Photography & Videography", icon: "📸" },
+    { name: "Typing", icon: "⌨️" },
+    { name: "Editing", icon: "✂️" }
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const progressBars = entry.target.querySelectorAll('.progress-bar');
-            progressBars.forEach((bar, index) => {
+            const cards = entry.target.querySelectorAll('.skill-card');
+            cards.forEach((card, index) => {
               setTimeout(() => {
-                bar.classList.add('animate-progress');
-              }, index * 200);
+                card.classList.add('animate-scale-in');
+              }, index * 100);
             });
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.2 }
     );
 
     if (skillsRef.current) {
@@ -41,33 +58,85 @@ export const Skills = () => {
   }, []);
 
   return (
-    <section id="skills" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-6">
-            Skills & Expertise
+    <section id="skills" className="py-32 bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-20">
+          <h2 className="text-6xl font-black bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-8 tracking-wide">
+            SKILLS ARSENAL
           </h2>
-          <p className="text-xl text-white/60 max-w-3xl mx-auto">
-            A comprehensive toolkit for building modern, scalable applications
+          <p className="text-2xl text-white/70 max-w-4xl mx-auto font-light leading-relaxed">
+            A comprehensive toolkit for building extraordinary digital experiences
           </p>
         </div>
 
-        <div ref={skillsRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div ref={skillsRef} className="space-y-20">
           {/* Technical Skills */}
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-white mb-6">Programming Skills</h3>
-            <div className="space-y-6">
+          <div className="space-y-12">
+            <h3 className="text-4xl font-bold text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent tracking-wide">
+              TECHNICAL MASTERY
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {technicalSkills.map((skill, index) => (
-                <div key={skill.name} className="group">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-white font-medium">{skill.name}</span>
-                    <span className="text-white/60">{skill.level}%</span>
+                <div 
+                  key={skill.name} 
+                  className="skill-card opacity-0 group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 hover:border-cyan-400/50 transition-all duration-500 hover:scale-110 hover:rotate-2 shadow-2xl hover:shadow-cyan-500/25"
+                >
+                  <div className="text-center space-y-4">
+                    <div className="text-6xl mb-4 group-hover:scale-125 transition-transform duration-300">
+                      {skill.icon}
+                    </div>
+                    <h4 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
+                      {skill.name}
+                    </h4>
                   </div>
-                  <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
-                    <div 
-                      className={`progress-bar h-full bg-gradient-to-r ${skill.color} rounded-full transition-all duration-1000 ease-out transform scale-x-0 origin-left group-hover:scale-x-100`}
-                      style={{ width: `${skill.level}%` }}
-                    ></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 to-violet-400/0 group-hover:from-cyan-400/10 group-hover:to-violet-400/10 rounded-3xl transition-all duration-500"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tools */}
+          <div className="space-y-12">
+            <h3 className="text-4xl font-bold text-center bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent tracking-wide">
+              CREATIVE TOOLS
+            </h3>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {tools.map((tool, index) => (
+                <div 
+                  key={tool.name}
+                  className="skill-card opacity-0 group bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-violet-400/50 transition-all duration-300 hover:scale-105 hover:-rotate-1 shadow-xl"
+                >
+                  <div className="text-center space-y-3">
+                    <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                      {tool.icon}
+                    </div>
+                    <div className="text-lg font-semibold text-white group-hover:text-violet-400 transition-colors duration-300">
+                      {tool.name}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Soft Skills */}
+          <div className="space-y-12">
+            <h3 className="text-4xl font-bold text-center bg-gradient-to-r from-fuchsia-400 to-pink-400 bg-clip-text text-transparent tracking-wide">
+              SOFT SKILLS
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {softSkills.map((skill, index) => (
+                <div 
+                  key={skill.name}
+                  className="skill-card opacity-0 group bg-gradient-to-br from-fuchsia-500/10 to-pink-500/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-fuchsia-400/50 transition-all duration-300 hover:scale-105 hover:rotate-1 shadow-xl"
+                >
+                  <div className="text-center space-y-3">
+                    <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                      {skill.icon}
+                    </div>
+                    <div className="text-lg font-semibold text-white group-hover:text-fuchsia-400 transition-colors duration-300">
+                      {skill.name}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -75,47 +144,26 @@ export const Skills = () => {
           </div>
 
           {/* Other Skills */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Tools</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {tools.map((tool, index) => (
-                  <div 
-                    key={tool} 
-                    className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:scale-105 transition-transform duration-300"
-                  >
-                    <div className="text-white font-medium text-center">{tool}</div>
+          <div className="space-y-12">
+            <h3 className="text-4xl font-bold text-center bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent tracking-wide">
+              CREATIVE EXPERTISE
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {otherSkills.map((skill, index) => (
+                <div 
+                  key={skill.name}
+                  className="skill-card opacity-0 group bg-gradient-to-br from-emerald-500/10 to-blue-500/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-emerald-400/50 transition-all duration-300 hover:scale-105 hover:-rotate-1 shadow-xl"
+                >
+                  <div className="text-center space-y-3">
+                    <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                      {skill.icon}
+                    </div>
+                    <div className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors duration-300">
+                      {skill.name}
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Soft Skills</h3>
-              <div className="grid grid-cols-1 gap-3">
-                {softSkills.map((skill, index) => (
-                  <div 
-                    key={skill}
-                    className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-lg p-3 border border-white/10 hover:scale-105 transition-transform duration-300"
-                  >
-                    <div className="text-white font-medium">{skill}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Other Skills</h3>
-              <div className="flex flex-wrap gap-3">
-                {otherSkills.map((skill, index) => (
-                  <span 
-                    key={skill}
-                    className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-white/10 text-white/80 hover:text-white transition-colors duration-300"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
