@@ -5,95 +5,8 @@ export const Skills = () => {
   const skillsRef = useRef<HTMLDivElement>(null);
 
   const technicalSkills = [
-    { 
-      name: "Java", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
-          <path d="M8.851 18.56s-.917.534.653.714c1.902.218 2.874.187 4.969-.211 0 0 .552.346 1.321.646-4.699 2.013-10.633-.118-6.943-1.149M8.276 15.933s-1.028.761.542.924c2.032.209 3.636.227 6.413-.308 0 0 .384.389.987.602-5.679 1.661-12.007.13-7.942-1.218"/>
-        </svg>
-      ),
-      color: "from-orange-500 to-red-500" 
-    },
-    { 
-      name: "HTML5", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
-          <path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/>
-        </svg>
-      ),
-      color: "from-orange-500 to-red-600" 
-    },
-    { 
-      name: "CSS3", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
-          <path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z"/>
-        </svg>
-      ),
-      color: "from-blue-500 to-blue-600" 
-    },
-    { 
-      name: "JavaScript", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
-          <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/>
-        </svg>
-      ),
-      color: "from-yellow-400 to-yellow-500" 
-    },
-    { 
-      name: "React.js", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
-          <path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.36-.034-.47 0-.92.014-1.36.034.44-.572.895-1.096 1.36-1.564zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.866.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.36.034.47 0 .92-.014 1.36-.034-.44.572-.895 1.095-1.36 1.563-.48-.47-.92-.99-1.36-1.563z"/>
-        </svg>
-      ),
-      color: "from-blue-400 to-cyan-400" 
-    },
-    { 
-      name: "MongoDB", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
-          <path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z"/>
-        </svg>
-      ),
-      color: "from-green-500 to-green-600" 
-    }
-  ];
-
-  const tools = [
-    { 
-      name: "Git", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-          <path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"/>
-        </svg>
-      ) 
-    },
-    { 
-      name: "GitHub", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-        </svg>
-      ) 
-    },
-    { 
-      name: "Figma", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-          <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.02s-1.354-3.02-3.02-3.02h-3.116v6.04zm0 1.471H8.148c-2.476 0-4.49-2.015-4.49-4.491S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.666 0-3.02 1.355-3.02 3.02s1.354 3.02 3.02 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.666 0-3.02 1.354-3.02 3.019s1.355 3.02 3.02 3.02h3.117V8.981H8.148z"/>
-        </svg>
-      ) 
-    },
-    { 
-      name: "Canva", 
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-          <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.618 5.367 11.985 11.988 11.985s11.987-5.367 11.987-11.985C24.004 5.367 18.635.001 12.017.001zM8.378 5.85c.892 0 1.696.29 2.299.77L9.14 8.15c-.357-.357-.77-.536-1.25-.536-.892 0-1.518.715-1.518 1.518 0 .892.715 1.607 1.607 1.607.446 0 .892-.178 1.16-.446l1.518 1.518c-.625.625-1.428.982-2.32.982-1.875 0-3.482-1.518-3.482-3.482S6.503 5.85 8.378 5.85zm7.054 7.946c-.357.357-.804.536-1.339.536-.804 0-1.428-.446-1.607-1.071h1.25c.178 0 .357-.179.357-.357v-.178c0-1.25-.892-2.232-2.232-2.232-1.339 0-2.41 1.071-2.41 2.41s1.071 2.41 2.41 2.41c.714 0 1.339-.268 1.786-.714l.785.196z"/>
-        </svg>
-      ) 
-    }
+    "Java", "HTML5", "CSS3", "JavaScript", "React.js", "MongoDB", 
+    "Git", "GitHub", "Figma", "Canva"
   ];
 
   useEffect(() => {
@@ -101,7 +14,7 @@ export const Skills = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const cards = entry.target.querySelectorAll('.skill-card');
+            const cards = entry.target.querySelectorAll('.skill-item');
             cards.forEach((card, index) => {
               setTimeout(() => {
                 card.classList.add('animate-scale-in');
@@ -121,64 +34,108 @@ export const Skills = () => {
   }, []);
 
   return (
-    <section id="skills" className="py-32 bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950">
+    <section id="skills" className="py-32 bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950 relative overflow-hidden">
+      {/* Dynamic background particles */}
+      <div className="absolute inset-0">
+        {[...Array(100)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute bg-white/5 rounded-full animate-pulse"
+            style={{
+              width: `${Math.random() * 4 + 1}px`,
+              height: `${Math.random() * 4 + 1}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Floating geometric shapes */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-r from-cyan-400/10 to-violet-400/10 rounded-full blur-2xl animate-float"></div>
+        <div className="absolute bottom-20 right-20 w-56 h-56 bg-gradient-to-r from-fuchsia-400/10 to-emerald-400/10 rounded-full blur-2xl animate-float delay-1000"></div>
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-gradient-to-r from-yellow-400/10 to-red-400/10 rounded-full blur-2xl animate-float delay-500"></div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">
-          <h2 className="text-6xl font-black bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-8 tracking-wide">
-            TECHNICAL MASTERY
+          <h2 className="text-7xl font-black bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-8 tracking-wide">
+            TECHNICAL ARSENAL
           </h2>
-          <p className="text-2xl text-white/70 max-w-4xl mx-auto font-light leading-relaxed">
-            Cutting-edge technologies and professional tools
+          <p className="text-3xl text-white/70 max-w-4xl mx-auto font-light leading-relaxed">
+            Cutting-edge technologies and professional expertise
           </p>
         </div>
 
         <div ref={skillsRef} className="space-y-20">
-          {/* Technical Skills */}
-          <div className="space-y-12">
-            <h3 className="text-4xl font-bold text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent tracking-wide">
-              CORE TECHNOLOGIES
+          {/* Technical Skills with Amazing Typography */}
+          <div className="space-y-16">
+            <h3 className="text-5xl font-black text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent tracking-wide mb-12">
+              CORE TECHNOLOGIES & TOOLS
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {/* Flowing skill layout */}
+            <div className="flex flex-wrap justify-center gap-8">
               {technicalSkills.map((skill, index) => (
                 <div 
-                  key={skill.name} 
-                  className="skill-card opacity-0 group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 hover:border-cyan-400/50 transition-all duration-500 hover:scale-110 hover:rotate-2 shadow-2xl hover:shadow-cyan-500/25"
+                  key={skill} 
+                  className="skill-item opacity-0 group relative"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="text-center space-y-4">
-                    <div className={`w-16 h-16 mx-auto bg-gradient-to-r ${skill.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-125 transition-transform duration-300 text-white`}>
-                      {skill.icon}
+                  <div className="relative px-8 py-6 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 hover:border-cyan-400/50 transition-all duration-700 hover:scale-110 hover:rotate-3 shadow-2xl hover:shadow-cyan-500/25 transform-gpu">
+                    {/* Skill name with advanced typography */}
+                    <div className="text-center">
+                      <h4 className={`text-2xl font-black text-white group-hover:text-cyan-400 transition-all duration-500 ${
+                        skill.length > 8 ? 'text-xl' : 'text-2xl'
+                      }`} style={{
+                        fontFamily: 'Space Grotesk, monospace',
+                        textShadow: '0 0 20px rgba(6, 182, 212, 0.3)',
+                        letterSpacing: '0.05em'
+                      }}>
+                        {skill.toUpperCase()}
+                      </h4>
+                      
+                      {/* Animated underline */}
+                      <div className="mt-3 h-1 bg-gradient-to-r from-cyan-400 to-violet-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 rounded-full"></div>
                     </div>
-                    <h4 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
-                      {skill.name}
-                    </h4>
+                    
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 to-violet-400/0 group-hover:from-cyan-400/10 group-hover:to-violet-400/10 rounded-2xl transition-all duration-700"></div>
+                    
+                    {/* Floating particles on hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      {[...Array(6)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-ping"
+                          style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            animationDelay: `${i * 0.2}s`
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 to-violet-400/0 group-hover:from-cyan-400/10 group-hover:to-violet-400/10 rounded-3xl transition-all duration-500"></div>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Tools */}
-          <div className="space-y-12">
-            <h3 className="text-4xl font-bold text-center bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent tracking-wide">
-              PROFESSIONAL TOOLS
-            </h3>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {tools.map((tool, index) => (
-                <div 
-                  key={tool.name}
-                  className="skill-card opacity-0 group bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-violet-400/50 transition-all duration-300 hover:scale-105 hover:-rotate-1 shadow-xl"
-                >
-                  <div className="text-center space-y-3">
-                    <div className="w-12 h-12 mx-auto bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
-                      {tool.icon}
-                    </div>
-                    <div className="text-lg font-semibold text-white group-hover:text-violet-400 transition-colors duration-300">
-                      {tool.name}
-                    </div>
-                  </div>
+            {/* Animated skill connections */}
+            <div className="relative mt-16">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent animate-pulse"></div>
+              </div>
+              <div className="text-center">
+                <div className="inline-block px-8 py-3 bg-gradient-to-r from-black/80 to-purple-900/80 backdrop-blur-xl rounded-full border border-white/20">
+                  <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
+                    CONTINUOUSLY EXPANDING SKILLSET
+                  </span>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
