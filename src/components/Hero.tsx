@@ -136,29 +136,29 @@ export const Hero = () => {
           <div className="mb-8 relative">
             <div className="relative mb-12">
               {/* Optimized 3D Laptop Frame - Made larger */}
-              <div className="mx-auto w-[600px] h-[320px] perspective-1000 mt-8">
+              <div className="mx-auto w-[90%] md:w-[600px] h-[320px] perspective-1000 mt-8">
                 <div className="relative w-full h-full transform rotateX-10 transition-transform duration-1000 hover:rotateX-5">
-                  {/* Laptop Screen - Made much larger for better text visibility */}
-                  <div className="w-full h-72 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
+                  {/* Laptop Screen - Responsive sizing */}
+                  <div className="w-full h-64 sm:h-72 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
                     <div className="absolute inset-1 bg-black rounded-lg">
-                      {/* Terminal Window - Increased size and padding */}
-                      <div className="p-6 font-mono text-green-400 text-base h-full flex flex-col">
-                        <div className="flex items-center mb-4">
+                      {/* Terminal Window - Responsive padding */}
+                      <div className="p-3 sm:p-6 font-mono text-green-400 text-sm sm:text-base h-full flex flex-col">
+                        <div className="flex items-center mb-2 sm:mb-4">
                           <div className="flex space-x-1">
-                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-red-500"></div>
+                            <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-yellow-500"></div>
+                            <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-green-500"></div>
                           </div>
-                          <span className="ml-4 text-gray-400 text-sm">terminal</span>
+                          <span className="ml-2 sm:ml-4 text-gray-400 text-xs sm:text-sm">terminal</span>
                         </div>
                         <div className="space-y-3 flex-1">
                           <div className="text-green-400">$ cd portfolio/</div>
                           <div className="text-green-400">$ echo "Creating magic..."</div>
                           <div className="text-cyan-400">Creating magic...</div>
                           <div className="text-green-400">$ whoami</div>
-                          {/* Fixed terminal output with proper sizing and visibility */}
-                          <div className="text-white font-bold text-base bg-gray-800/70 p-4 rounded border-l-4 border-cyan-400 mt-4 w-full">
-                            <div className="text-cyan-400 font-bold leading-relaxed text-lg whitespace-nowrap overflow-hidden">
+                          {/* Responsive terminal output */}
+                          <div className="text-white font-bold text-sm sm:text-base bg-gray-800/70 p-2 sm:p-4 rounded border-l-4 border-cyan-400 mt-2 sm:mt-4 w-full">
+                            <div className="text-cyan-400 font-bold leading-relaxed text-sm sm:text-lg whitespace-nowrap overflow-hidden">
                               {typingText}<span className="animate-pulse text-cyan-400">|</span>
                             </div>
                           </div>
