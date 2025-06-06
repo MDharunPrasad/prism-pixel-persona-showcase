@@ -5,7 +5,6 @@ import { Skills } from "@/components/Skills";
 import { Experience } from "@/components/Experience";
 import { Projects } from "@/components/Projects";
 import { Services } from "@/components/Services";
-import { Game } from "@/components/Game";
 import { Contact } from "@/components/Contact";
 import { Navigation } from "@/components/Navigation";
 import { useEffect, useState } from "react";
@@ -36,7 +35,7 @@ const Index = () => {
       setTimeout(() => setCursorClick(false), 200);
     };
     
-    // Optimized hover detection
+    // Optimized hover detection - Fixed TypeScript error
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isInteractive = 
@@ -46,7 +45,7 @@ const Index = () => {
         target.closest('a') ||
         target.classList.contains('interactive');
       
-      setCursorHover(isInteractive);
+      setCursorHover(Boolean(isInteractive)); // Fixed: Convert to boolean
     };
     
     // Throttled scroll handler
@@ -104,13 +103,12 @@ const Index = () => {
       <Experience />
       <Projects />
       <Services />
-      <Game />
       <Contact />
       
-      {/* Optimized background elements */}
+      {/* Minimal background elements for performance */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-20 left-20 w-48 h-48 bg-purple-500/5 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-64 h-64 bg-blue-500/5 rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute top-20 left-20 w-32 h-32 bg-purple-500/3 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 bg-blue-500/3 rounded-full blur-xl animate-pulse delay-1000"></div>
       </div>
       
       {/* Custom cursor (hidden on mobile/low-end devices) */}

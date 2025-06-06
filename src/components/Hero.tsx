@@ -1,13 +1,14 @@
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Gift } from "lucide-react";
 
 export const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [typingText, setTypingText] = useState("");
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showSurprise, setShowSurprise] = useState(false);
+  const [giftClicked, setGiftClicked] = useState(false);
   const fullText = "Creative Software Engineer & Digital Artist";
 
   useEffect(() => {
@@ -22,14 +23,14 @@ export const Hero = () => {
       }
     }, 80);
 
-    // Mouse parallax effect (throttled)
+    // Mouse parallax effect (throttled for performance)
     let lastMouseUpdate = 0;
     const handleMouseMove = (e: MouseEvent) => {
       const now = Date.now();
-      if (now - lastMouseUpdate > 16) { // 60fps
+      if (now - lastMouseUpdate > 32) { // Reduced frequency for better performance
         setMousePosition({
-          x: (e.clientX / window.innerWidth - 0.5) * 15,
-          y: (e.clientY / window.innerHeight - 0.5) * 15
+          x: (e.clientX / window.innerWidth - 0.5) * 10, // Reduced multiplier
+          y: (e.clientY / window.innerHeight - 0.5) * 10
         });
         lastMouseUpdate = now;
       }
@@ -41,103 +42,13 @@ export const Hero = () => {
       setShowScrollIndicator(scrollPosition < 200);
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    // Only add events if not mobile
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-
-    // Optimized canvas animation for low-end devices
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d', { alpha: false });
-    if (!ctx) return;
-    
-    // Reduced resolution for better performance
-    const pixelRatio = Math.min(window.devicePixelRatio, 1.2);
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    
-    canvas.width = screenWidth * pixelRatio;
-    canvas.height = screenHeight * pixelRatio;
-    canvas.style.width = `${screenWidth}px`;
-    canvas.style.height = `${screenHeight}px`;
-    ctx.scale(pixelRatio, pixelRatio);
-    
-    const particles: Array<{
-      x: number;
-      y: number;
-      z: number;
-      vx: number;
-      vy: number;
-      vz: number;
-      size: number;
-      color: string;
-    }> = [];
-    
-    // Reduced particles for better performance
-    const particleCount = screenWidth < 768 ? 20 : 35;
-    
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        z: Math.random() * 1000,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8,
-        vz: Math.random() * 2 + 1,
-        size: Math.random() * 1.5 + 0.5,
-        color: `hsl(${180 + Math.random() * 60}, 70%, ${50 + Math.random() * 30}%)`
-      });
-    }
-    
-    let frameCount = 0;
-    let lastTime = 0;
-    const targetFPS = 30;
-    const frameDelay = 1000 / targetFPS;
-    
-    function animateUniverse(currentTime: number) {
-      const elapsed = currentTime - lastTime;
-      
-      if (elapsed > frameDelay) {
-        lastTime = currentTime - (elapsed % frameDelay);
-        frameCount++;
-        
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
-        ctx.fillRect(0, 0, screenWidth, screenHeight);
-        
-        particles.forEach((particle) => {
-          particle.x += particle.vx;
-          particle.y += particle.vy;
-          particle.z -= particle.vz;
-          
-          if (particle.z <= 0) {
-            particle.z = 1000;
-            particle.x = Math.random() * screenWidth;
-            particle.y = Math.random() * screenHeight;
-          }
-          
-          if (particle.x < 0 || particle.x > screenWidth) particle.vx *= -1;
-          if (particle.y < 0 || particle.y > screenHeight) particle.vy *= -1;
-          
-          const scale = 200 / particle.z;
-          const projectedX = particle.x * scale;
-          const projectedY = particle.y * scale;
-          const projectedSize = particle.size * scale;
-          
-          if (projectedX > -30 && projectedX < screenWidth + 30 && 
-              projectedY > -30 && projectedY < screenHeight + 30) {
-            ctx.fillStyle = particle.color;
-            ctx.beginPath();
-            ctx.arc(projectedX, projectedY, Math.max(0.3, projectedSize), 0, Math.PI * 2);
-            ctx.fill();
-          }
-        });
-      }
-      
-      requestAnimationFrame(animateUniverse);
-    }
-    
-    requestAnimationFrame(animateUniverse);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -157,53 +68,106 @@ export const Hero = () => {
     window.open('/resume.pdf', '_blank');
   };
 
+  const handleGiftClick = () => {
+    setGiftClicked(true);
+    setShowSurprise(true);
+    setTimeout(() => {
+      setShowSurprise(false);
+      setGiftClicked(false);
+    }, 4000);
+  };
+
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Optimized Universe Canvas Background */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 z-0"
-        style={{ background: 'radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f1419 100%)' }}
-      />
+      {/* Simplified background - No canvas for better performance */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950"></div>
+      
+      {/* Animated stars (CSS only) */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 2}s`
+            }}
+          />
+        ))}
+      </div>
 
       {/* Floating geometric shapes with parallax effect */}
       <div className="absolute inset-0 pointer-events-none z-10">
         <div 
-          className="absolute top-20 left-20 w-20 h-20 bg-gradient-to-r from-cyan-400/15 to-violet-400/15 rounded-2xl backdrop-blur-sm animate-float border border-white/10 shadow-lg transform rotate-12" 
+          className="absolute top-20 left-20 w-16 h-16 bg-gradient-to-r from-cyan-400/10 to-violet-400/10 rounded-2xl backdrop-blur-sm animate-float border border-white/5 shadow-lg transform rotate-12" 
           style={{ 
-            transform: `rotate(12deg) translate(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px)` 
+            transform: `rotate(12deg) translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)` 
           }}
         />
         <div 
-          className="absolute top-60 right-32 w-12 h-12 bg-gradient-to-r from-fuchsia-400/15 to-emerald-400/15 rounded-full backdrop-blur-sm animate-float border border-white/10 shadow-lg" 
+          className="absolute top-60 right-32 w-8 h-8 bg-gradient-to-r from-fuchsia-400/10 to-emerald-400/10 rounded-full backdrop-blur-sm animate-float border border-white/5 shadow-lg" 
           style={{ 
-            transform: `translate(${mousePosition.x * -0.15}px, ${mousePosition.y * -0.15}px)` 
+            transform: `translate(${mousePosition.x * -0.08}px, ${mousePosition.y * -0.08}px)` 
           }}
         />
         <div 
-          className="absolute bottom-60 left-32 w-24 h-24 bg-gradient-to-r from-blue-400/15 to-purple-400/15 rounded-xl backdrop-blur-sm animate-float border border-white/10 shadow-lg transform rotate-45" 
+          className="absolute bottom-60 left-32 w-12 h-12 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-xl backdrop-blur-sm animate-float border border-white/5 shadow-lg transform rotate-45" 
           style={{ 
-            transform: `rotate(45deg) translate(${mousePosition.x * 0.25}px, ${mousePosition.y * 0.25}px)` 
+            transform: `rotate(45deg) translate(${mousePosition.x * 0.12}px, ${mousePosition.y * 0.12}px)` 
           }}
         />
       </div>
+
+      {/* Surprise Gift Box */}
+      <div className="absolute top-20 right-20 z-30">
+        <button
+          onClick={handleGiftClick}
+          className={`group relative p-4 rounded-full bg-gradient-to-r from-pink-500/20 to-yellow-500/20 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:scale-110 ${giftClicked ? 'animate-bounce' : 'animate-pulse'}`}
+          disabled={giftClicked}
+        >
+          <Gift className={`w-8 h-8 text-yellow-400 transition-all duration-300 ${giftClicked ? 'animate-spin' : 'group-hover:rotate-12'}`} />
+          <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+        </button>
+      </div>
+
+      {/* Surprise Message */}
+      {showSurprise && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 text-center animate-scale-in shadow-2xl">
+            <div className="text-6xl mb-4">🎉</div>
+            <h3 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-pink-400 bg-clip-text text-transparent mb-4 font-orbitron">
+              Hey! I'm Dharun
+            </h3>
+            <p className="text-xl text-white/80 font-rajdhani">
+              Nice to meet you! 🚀
+            </p>
+            <div className="mt-6 flex justify-center space-x-2">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce delay-100"></div>
+              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce delay-200"></div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div 
         ref={heroRef}
         className="text-center z-20 relative w-full max-w-6xl mx-auto px-6"
         style={{ 
-          transform: `translate(${mousePosition.x * 0.05}px, ${mousePosition.y * 0.05}px)` 
+          transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)` 
         }}
       >
         <div className="animate-fade-in">
-          {/* Enhanced name with 3D laptop typing effect */}
+          {/* Enhanced name with simplified 3D laptop typing effect */}
           <div className="mb-8 relative">
             <div className="relative mb-12">
-              {/* 3D Laptop Frame */}
-              <div className="mx-auto w-80 h-52 perspective-1000">
-                <div className="relative w-full h-full transform rotateX-15 rotateY-5 transition-transform duration-1000 hover:rotateX-10 hover:rotateY-10">
+              {/* Simplified 3D Laptop Frame */}
+              <div className="mx-auto w-80 h-48 perspective-1000">
+                <div className="relative w-full h-full transform rotateX-10 transition-transform duration-1000 hover:rotateX-5">
                   {/* Laptop Screen */}
-                  <div className="w-full h-40 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
+                  <div className="w-full h-36 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
                     <div className="absolute inset-1 bg-black rounded-lg">
                       {/* Terminal Window */}
                       <div className="p-3 font-mono text-green-400 text-xs">
@@ -221,7 +185,9 @@ export const Hero = () => {
                           <div className="text-cyan-400">Creating magic...</div>
                           <div>$ whoami</div>
                           <div className="text-white font-bold text-sm bg-gray-800/50 p-1 rounded border-l-2 border-cyan-400">
-                            {typingText}<span className="animate-pulse text-cyan-400">|</span>
+                            <div className="text-cyan-400 font-bold">
+                              {typingText}<span className="animate-pulse text-cyan-400">|</span>
+                            </div>
                           </div>
                         </div>
                       </div>

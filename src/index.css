@@ -89,7 +89,7 @@
     transform: translateY(0px) rotate(0deg) scale(1); 
   }
   50% { 
-    transform: translateY(-15px) rotate(2deg) scale(1.01); 
+    transform: translateY(-10px) rotate(1deg) scale(1.01); 
   }
 }
 
@@ -104,24 +104,39 @@
   }
 }
 
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @keyframes pulse-glow {
   0%, 100% { 
     filter: brightness(1);
-    text-shadow: 0 0 15px currentColor;
+    text-shadow: 0 0 10px currentColor;
   }
   50% { 
     filter: brightness(1.1);
-    text-shadow: 0 0 25px currentColor, 0 0 35px currentColor;
+    text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
   }
 }
 
 /* Enhanced Utility Classes */
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 .animate-fade-in {
-  animation: fade-in 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .animate-pulse-glow {
@@ -148,9 +163,9 @@
 /* Optimized Glassmorphism */
 .glass {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(120%);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Enhanced Smooth Scrolling */
@@ -208,10 +223,6 @@ html {
   body {
     cursor: auto;
   }
-  
-  canvas {
-    opacity: 0.6;
-  }
 }
 
 /* Custom Cursor Styles */
@@ -224,8 +235,8 @@ html {
 }
 
 .cursor-dot {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
   background: #06b6d4;
   border-radius: 50%;
   position: absolute;
@@ -236,8 +247,8 @@ html {
 }
 
 .cursor-ring {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border: 1px solid #8b5cf6;
   border-radius: 50%;
   position: absolute;
@@ -249,22 +260,22 @@ html {
 
 /* Interaction States */
 .cursor-hover .cursor-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: #f472b6;
 }
 
 .cursor-hover .cursor-ring {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-color: #f472b6;
 }
 
 .cursor-click .cursor-dot {
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   background: #f472b6;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* Scroll-to-top button */
@@ -285,17 +296,30 @@ html {
   transform: translateY(0);
 }
 
+/* 3D Perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.rotateX-10 {
+  transform: rotateX(10deg);
+}
+
+.rotateX-5 {
+  transform: rotateX(5deg);
+}
+
 /* Low-end device optimizations */
 @media (max-width: 640px), (pointer: coarse) {
   .animate-float {
     animation: none;
   }
   
-  canvas {
-    opacity: 0.4;
-  }
-  
   .custom-cursor {
     display: none;
+  }
+  
+  .glass {
+    backdrop-filter: blur(5px);
   }
 }
