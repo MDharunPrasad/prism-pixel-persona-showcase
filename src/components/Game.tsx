@@ -7,11 +7,179 @@ export const Game = () => {
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameover'>('menu');
   const [highScore, setHighScore] = useState(0);
-  const [particles, setParticles] = useState<Array<{ x: number; y: number; vx: number; vy: number; life: number; color: string }>>([]);
+  const [hovering, setHovering] = useState(false);
+  
+  useEffect(() => {
+    // Check for high score in localStorage
+    const savedHighScore = localStorage.getItem('cosmic-runner-highscore');
+    if (savedHighScore) {
+      setHighScore(parseInt(savedHighScore));
+    }
+
+    // Create enhaced menu animation
+    const menuCanvas = canvasRef.current;
+    if (!menuCanvas || gameState !== 'menu') return;
+    
+    const ctx = menuCanvas.getContext('2d');
+    if (!ctx) return;
+    
+    menuCanvas.width = 1000;
+    menuCanvas.height = 600;
+    
+    // Optimized for performance
+    const particleCount = window.innerWidth < 768 ? 50 : 100;
+    const stars: Array<{
+      x: number;
+      y: number;
+      size: number;
+      speed: number;
+      color: string;
+      rotation: number;
+      rotationSpeed: number;
+      opacity: number;
+    }> = [];
+    
+    // Create stars with improved visual effect
+    for (let i = 0; i < particleCount; i++) {
+      stars.push({
+        x: Math.random() * menuCanvas.width,
+        y: Math.random() * menuCanvas.height,
+        size: Math.random() * 4 + 1,
+        speed: Math.random() * 2 + 0.5,
+        color: `hsl(${Math.random() * 60 + 180}, 70%, ${Math.random() * 40 + 50}%)`,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.02,
+        opacity: Math.random() * 0.5 + 0.5
+      });
+    }
+    
+    // Create enhanced background
+    const gradient = ctx.createRadialGradient(
+      menuCanvas.width / 2, 
+      menuCanvas.height / 2, 
+      0, 
+      menuCanvas.width / 2, 
+      menuCanvas.height / 2, 
+      menuCanvas.height
+    );
+    gradient.addColorStop(0, '#1a0533');
+    gradient.addColorStop(0.5, '#0c0a2b');
+    gradient.addColorStop(1, '#050518');
+    
+    let animationFrame: number;
+    let frameCount = 0;
+
+    const drawShiningStar = (x: number, y: number, size: number, rotation: number, color: string, opacity: number) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
+      ctx.fillStyle = color;
+      ctx.globalAlpha = opacity;
+      
+      // Draw 4-point star
+      ctx.beginPath();
+      for (let i = 0; i < 8; i++) {
+        const radius = i % 2 === 0 ? size : size * 0.4;
+        const angle = (Math.PI / 4) * i;
+        ctx.lineTo(
+          radius * Math.cos(angle),
+          radius * Math.sin(angle)
+        );
+      }
+      ctx.closePath();
+      ctx.fill();
+      
+      // Add glow effect
+      ctx.shadowBlur = size * 2;
+      ctx.shadowColor = color;
+      ctx.fill();
+      ctx.restore();
+    };
+    
+    const animate = () => {
+      frameCount++;
+      
+      // Fill background
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, menuCanvas.width, menuCanvas.height);
+      
+      // Add subtle nebula effect
+      if (frameCount % 2 === 0) {
+        const nebulaX = Math.random() * menuCanvas.width;
+        const nebulaY = Math.random() * menuCanvas.height;
+        const nebulaSize = Math.random() * 100 + 50;
+        
+        const nebulaGradient = ctx.createRadialGradient(
+          nebulaX, nebulaY, 0,
+          nebulaX, nebulaY, nebulaSize
+        );
+        
+        const hue = (frameCount * 0.1) % 360;
+        nebulaGradient.addColorStop(0, `hsla(${hue}, 80%, 40%, 0.03)`);
+        nebulaGradient.addColorStop(1, `hsla(${hue}, 80%, 40%, 0)`);
+        
+        ctx.fillStyle = nebulaGradient;
+        ctx.fillRect(0, 0, menuCanvas.width, menuCanvas.height);
+      }
+      
+      // Draw and update stars
+      stars.forEach(star => {
+        star.y += star.speed;
+        star.rotation += star.rotationSpeed;
+        
+        // Reset stars when they go off-screen
+        if (star.y > menuCanvas.height + star.size) {
+          star.y = -star.size * 2;
+          star.x = Math.random() * menuCanvas.width;
+        }
+        
+        // Add pulsing effect
+        const pulse = Math.sin(frameCount * 0.01 + star.x) * 0.2 + 0.8;
+        const pulsedSize = star.size * pulse;
+        
+        // Draw star with enhanced visual effect
+        drawShiningStar(
+          star.x, 
+          star.y, 
+          pulsedSize, 
+          star.rotation, 
+          star.color, 
+          star.opacity * pulse
+        );
+      });
+      
+      // Add central glow effect
+      const centralGlow = ctx.createRadialGradient(
+        menuCanvas.width / 2,
+        menuCanvas.height / 2,
+        0,
+        menuCanvas.width / 2,
+        menuCanvas.height / 2,
+        menuCanvas.height / 3
+      );
+      
+      const glowHue = (frameCount * 0.2) % 360;
+      centralGlow.addColorStop(0, `hsla(${glowHue}, 80%, 60%, 0.1)`);
+      centralGlow.addColorStop(1, 'transparent');
+      
+      ctx.fillStyle = centralGlow;
+      ctx.fillRect(0, 0, menuCanvas.width, menuCanvas.height);
+      
+      animationFrame = requestAnimationFrame(animate);
+    };
+    
+    animate();
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [gameState]);
   
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || gameState !== 'playing') return;
     
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -56,7 +224,7 @@ export const Game = () => {
       color: string;
       size: number;
     }> = [];
-    let gameSpeed = 3;
+    let gameSpeed = 5; // Increased starting speed for more challenge
     let frameCount = 0;
     
     const gravity = 0.8;
@@ -175,7 +343,7 @@ export const Game = () => {
       ctx.shadowBlur = 0;
       
       // Create obstacles with different types
-      if (frameCount % 180 === 0) {
+      if (frameCount % 120 === 0) { // Increased obstacle frequency
         const types = ['spike', 'laser', 'moving'] as const;
         const type = types[Math.floor(Math.random() * types.length)];
         obstacles.push({
@@ -190,7 +358,7 @@ export const Game = () => {
       }
       
       // Create collectibles
-      if (frameCount % 300 === 0) {
+      if (frameCount % 200 === 0) { // More collectibles
         collectibles.push({
           x: canvas.width,
           y: Math.random() * 300 + 100,
@@ -313,6 +481,7 @@ export const Game = () => {
             player.y + player.height > obstacle.y) {
           if (score > highScore) {
             setHighScore(score);
+            localStorage.setItem('cosmic-runner-highscore', score.toString());
           }
           setGameState('gameover');
         }
@@ -392,7 +561,7 @@ export const Game = () => {
       ctx.restore();
       
       frameCount++;
-      gameSpeed += 0.002; // Gradually increase difficulty
+      gameSpeed += 0.003; // Gradually increase difficulty
       
       animationFrame = requestAnimationFrame(gameLoop);
     };
@@ -421,10 +590,10 @@ export const Game = () => {
   };
   
   return (
-    <section id="game" className="py-32 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950 relative overflow-hidden">
+    <section id="game" className="py-24 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0">
-        {[...Array(50)].map((_, i) => (
+        {[...Array(30)].map((_, i) => (
           <div
             key={i}
             className="absolute w-2 h-2 bg-white/10 rounded-full animate-pulse"
@@ -439,14 +608,14 @@ export const Game = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 text-center relative z-10">
-        <h2 className="text-6xl font-black bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-8 tracking-wide">
+        <h2 className="text-6xl font-black bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-6 tracking-wide animate-pulse-glow">
           COSMIC RUNNER
         </h2>
-        <p className="text-2xl text-white/70 mb-12 font-light">
+        <p className="text-2xl text-white/70 mb-10 font-light">
           Experience this mind-blowing 3D adventure game!
         </p>
         
-        <div className="relative bg-gradient-to-br from-black/60 to-purple-900/60 backdrop-blur-2xl rounded-3xl border-2 border-white/20 p-8 shadow-2xl">
+        <div className="relative bg-gradient-to-br from-black/60 to-purple-900/60 backdrop-blur-2xl rounded-3xl border-2 border-white/20 p-6 shadow-2xl">
           <canvas
             ref={canvasRef}
             className="w-full max-w-5xl mx-auto bg-gradient-to-b from-purple-900 to-indigo-900 rounded-2xl shadow-2xl border-2 border-white/30"
@@ -454,50 +623,61 @@ export const Game = () => {
           />
           
           {gameState === 'menu' && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/90 backdrop-blur-xl rounded-3xl">
-              <div className="text-center space-y-8">
-                <div className="flex justify-center mb-6">
-                  <Gamepad2 className="w-20 h-20 text-cyan-400 animate-bounce" />
+            <div className="absolute inset-0 flex items-center justify-center backdrop-blur-sm rounded-3xl">
+              <div className="text-center space-y-6 z-10 bg-black/50 backdrop-blur-xl p-12 rounded-3xl border border-white/10 shadow-2xl">
+                <div className="flex justify-center mb-4">
+                  <Gamepad2 className="w-20 h-20 text-cyan-400 animate-pulse-glow" />
                 </div>
                 <h3 className="text-5xl font-black bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent mb-4">
                   COSMIC RUNNER
                 </h3>
-                <p className="text-white/80 text-xl mb-8 max-w-md mx-auto">
+                <p className="text-white/80 text-xl mb-6 max-w-md mx-auto">
                   Navigate through space obstacles, collect cosmic stars, and achieve the highest score in this epic adventure!
                 </p>
-                <div className="flex justify-center space-x-6 mb-8">
-                  <div className="flex items-center space-x-2 text-emerald-400">
+                <div className="flex justify-center flex-wrap space-x-2 space-y-2 md:space-y-0 mb-6">
+                  <div className="flex items-center space-x-2 text-emerald-400 bg-emerald-400/10 px-4 py-2 rounded-full">
                     <Star className="w-5 h-5" />
                     <span>Collect Stars</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-yellow-400">
+                  <div className="flex items-center space-x-2 text-yellow-400 bg-yellow-400/10 px-4 py-2 rounded-full">
                     <Zap className="w-5 h-5" />
                     <span>Avoid Obstacles</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-purple-400">
+                  <div className="flex items-center space-x-2 text-purple-400 bg-purple-400/10 px-4 py-2 rounded-full">
                     <Trophy className="w-5 h-5" />
                     <span>Beat High Score</span>
                   </div>
                 </div>
                 {highScore > 0 && (
-                  <div className="text-yellow-400 text-xl mb-6">
+                  <div className="text-yellow-400 text-xl mb-6 p-2 bg-yellow-400/10 inline-block rounded-xl">
                     🏆 Best Score: {highScore}
                   </div>
                 )}
                 <button
                   onClick={startGame}
-                  className="px-12 py-6 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-2xl text-white font-bold text-2xl hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-cyan-500/50 transform-gpu"
+                  onMouseEnter={() => setHovering(true)}
+                  onMouseLeave={() => setHovering(false)}
+                  className={`px-12 py-6 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-2xl text-white font-bold text-2xl transition-all duration-500 shadow-2xl ${
+                    hovering ? 'scale-110 shadow-cyan-500/50' : ''
+                  } transform-gpu relative overflow-hidden`}
                 >
-                  🚀 START COSMIC ADVENTURE
+                  <div className="absolute inset-0 bg-white/20 animate-pulse opacity-0 hover:opacity-100 transition-opacity"></div>
+                  <span className="flex items-center justify-center">
+                    🚀 START COSMIC ADVENTURE
+                    <div className="ml-2 w-2 h-8 bg-white/80 animate-pulse"></div>
+                  </span>
                 </button>
+                <p className="text-white/50 text-sm mt-4">
+                  Press SPACE/↑ to jump | Collect stars | Avoid obstacles
+                </p>
               </div>
             </div>
           )}
           
           {gameState === 'gameover' && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/90 backdrop-blur-xl rounded-3xl">
-              <div className="text-center space-y-6">
-                <h3 className="text-5xl font-black text-red-400 mb-4">MISSION FAILED</h3>
+            <div className="absolute inset-0 flex items-center justify-center backdrop-blur-xl rounded-3xl">
+              <div className="text-center space-y-6 z-10 bg-black/70 backdrop-blur-xl p-12 rounded-3xl border border-red-500/30 shadow-2xl">
+                <h3 className="text-5xl font-black text-red-400 mb-4 animate-pulse-glow">MISSION FAILED</h3>
                 <div className="text-3xl text-white mb-4">Final Score: <span className="text-cyan-400">{score}</span></div>
                 {score > highScore && (
                   <div className="text-2xl text-yellow-400 mb-4 animate-bounce">
@@ -511,8 +691,9 @@ export const Game = () => {
                 )}
                 <button
                   onClick={resetGame}
-                  className="px-12 py-6 bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 rounded-2xl text-white font-bold text-2xl hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-red-500/50 transform-gpu"
+                  className="px-12 py-6 bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 rounded-2xl text-white font-bold text-2xl hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-red-500/50 transform-gpu relative overflow-hidden"
                 >
+                  <div className="absolute inset-0 bg-white/10 animate-pulse opacity-0 hover:opacity-100 transition-opacity"></div>
                   🔄 TRY AGAIN
                 </button>
               </div>

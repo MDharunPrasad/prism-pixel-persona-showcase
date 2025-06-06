@@ -33,7 +33,7 @@ export const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-24 bg-gradient-to-br from-purple-950 via-indigo-950 to-slate-950 relative overflow-hidden">
+    <section id="projects" className="py-20 bg-gradient-to-br from-purple-950 via-indigo-950 to-slate-950 relative overflow-hidden">
       {/* Optimized background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-20 w-48 h-48 bg-purple-500/5 rounded-full blur-2xl animate-pulse"></div>
@@ -50,30 +50,38 @@ export const Projects = () => {
           </p>
         </div>
 
-        {/* Featured Projects Grid */}
+        {/* Featured Projects Grid with Parallax Effect */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <div 
               key={index}
-              className="group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20 hover:border-cyan-400/50 transition-all duration-500 hover:scale-105 shadow-xl hover:shadow-cyan-500/20"
+              className="group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/20 hover:border-cyan-400/50 transition-all duration-500 hover:scale-105 shadow-xl hover:shadow-cyan-500/20 parallax"
+              data-speed={0.5 + index * 0.2}
             >
-              {/* Image container */}
+              {/* Image container with better error handling */}
               <div className="relative h-48 overflow-hidden">
                 <img 
                   src={project.image} 
                   alt={project.title}
                   loading="lazy"
                   className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                  onLoad={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.opacity = "1";
+                  }}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
+                    // Set a fallback image
                     target.src = "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=600&fit=crop";
+                    console.log("Image failed to load, fallback applied");
                   }}
+                  style={{ opacity: 0, transition: "opacity 0.5s ease-in-out" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 
                 {/* Featured badge */}
                 <div className="absolute top-3 right-3">
-                  <span className="bg-gradient-to-r from-cyan-500 to-violet-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                  <span className="bg-gradient-to-r from-cyan-500 to-violet-500 text-white px-2 py-1 rounded-full text-xs font-semibold animate-pulse">
                     FEATURED
                   </span>
                 </div>

@@ -6,7 +6,8 @@ export const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [typingText, setTypingText] = useState("");
-  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const fullText = "Creative Software Engineer & Digital Artist";
 
   useEffect(() => {
@@ -21,24 +22,45 @@ export const Hero = () => {
       }
     }, 100);
 
+    // Mouse parallax effect
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20
+      });
+    };
+
     // Scroll indicator visibility
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const heroHeight = window.innerHeight;
-      setShowScrollIndicator(scrollPosition < heroHeight * 0.8);
+      if (scrollPosition < 100) {
+        setShowScrollIndicator(true);
+      } else {
+        setShowScrollIndicator(false);
+      }
     };
 
+    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial scroll position
 
     // Optimized canvas animation
     const canvas = canvasRef.current;
     if (!canvas) return;
     
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
     
-    canvas.width = Math.min(window.innerWidth, 1920);
-    canvas.height = Math.min(window.innerHeight, 1080);
+    // Reduce resolution for better performance on low-end devices
+    const pixelRatio = Math.min(window.devicePixelRatio, 1.5);
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    canvas.width = screenWidth * pixelRatio;
+    canvas.height = screenHeight * pixelRatio;
+    canvas.style.width = `${screenWidth}px`;
+    canvas.style.height = `${screenHeight}px`;
+    ctx.scale(pixelRatio, pixelRatio);
     
     const particles: Array<{
       x: number;
@@ -51,8 +73,10 @@ export const Hero = () => {
       color: string;
     }> = [];
     
-    // Reduced particles for performance
-    for (let i = 0; i < 60; i++) {
+    // Reduced particles count for better performance
+    const particleCount = screenWidth < 768 ? 30 : 50;
+    
+    for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -66,13 +90,19 @@ export const Hero = () => {
     }
     
     let frameCount = 0;
-    function animateUniverse() {
-      frameCount++;
+    let lastTime = 0;
+    const targetFPS = 30;
+    const frameDelay = 1000 / targetFPS;
+    
+    function animateUniverse(currentTime: number) {
+      const elapsed = currentTime - lastTime;
       
-      // Reduce render frequency for performance
-      if (frameCount % 2 === 0) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (elapsed > frameDelay) {
+        lastTime = currentTime - (elapsed % frameDelay);
+        frameCount++;
+        
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillRect(0, 0, screenWidth, screenHeight);
         
         particles.forEach((particle) => {
           // Update position
@@ -83,12 +113,12 @@ export const Hero = () => {
           // Reset if particle goes off screen
           if (particle.z <= 0) {
             particle.z = 1000;
-            particle.x = Math.random() * canvas.width;
-            particle.y = Math.random() * canvas.height;
+            particle.x = Math.random() * screenWidth;
+            particle.y = Math.random() * screenHeight;
           }
           
-          if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-          if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+          if (particle.x < 0 || particle.x > screenWidth) particle.vx *= -1;
+          if (particle.y < 0 || particle.y > screenHeight) particle.vy *= -1;
           
           // 3D projection
           const scale = 300 / particle.z;
@@ -96,20 +126,25 @@ export const Hero = () => {
           const projectedY = particle.y * scale;
           const projectedSize = particle.size * scale;
           
-          // Draw particle
-          ctx.fillStyle = particle.color;
-          ctx.beginPath();
-          ctx.arc(projectedX, projectedY, Math.max(0.5, projectedSize), 0, Math.PI * 2);
-          ctx.fill();
+          // Only draw if in viewport (performance optimization)
+          if (projectedX > -50 && projectedX < screenWidth + 50 && 
+              projectedY > -50 && projectedY < screenHeight + 50) {
+            // Draw particle
+            ctx.fillStyle = particle.color;
+            ctx.beginPath();
+            ctx.arc(projectedX, projectedY, Math.max(0.5, projectedSize), 0, Math.PI * 2);
+            ctx.fill();
+          }
         });
       }
       
       requestAnimationFrame(animateUniverse);
     }
     
-    animateUniverse();
+    requestAnimationFrame(animateUniverse);
 
     return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
       clearInterval(typingInterval);
     };
@@ -135,22 +170,45 @@ export const Hero = () => {
         style={{ background: 'radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f1419 100%)' }}
       />
 
-      {/* Floating geometric shapes */}
+      {/* Floating geometric shapes with parallax effect */}
       <div className="absolute inset-0 pointer-events-none z-10">
-        <div className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-r from-cyan-400/20 to-violet-400/20 rounded-2xl backdrop-blur-sm animate-float border border-white/10 shadow-xl transform rotate-12"></div>
-        <div className="absolute top-60 right-32 w-16 h-16 bg-gradient-to-r from-fuchsia-400/20 to-emerald-400/20 rounded-full backdrop-blur-sm animate-float delay-1000 border border-white/10 shadow-xl"></div>
-        <div className="absolute bottom-60 left-32 w-28 h-28 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl backdrop-blur-sm animate-float delay-500 border border-white/10 shadow-xl transform rotate-45"></div>
-        <div className="absolute bottom-32 right-20 w-20 h-20 bg-gradient-to-r from-pink-400/20 to-cyan-400/20 rounded-full backdrop-blur-sm animate-float delay-2000 border border-white/10 shadow-xl"></div>
+        <div 
+          className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-r from-cyan-400/20 to-violet-400/20 rounded-2xl backdrop-blur-sm animate-float border border-white/10 shadow-xl transform rotate-12" 
+          style={{ 
+            transform: `rotate(12deg) translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)` 
+          }}
+        />
+        <div 
+          className="absolute top-60 right-32 w-16 h-16 bg-gradient-to-r from-fuchsia-400/20 to-emerald-400/20 rounded-full backdrop-blur-sm animate-float border border-white/10 shadow-xl" 
+          style={{ 
+            transform: `translate(${mousePosition.x * -0.2}px, ${mousePosition.y * -0.2}px)` 
+          }}
+        />
+        <div 
+          className="absolute bottom-60 left-32 w-28 h-28 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl backdrop-blur-sm animate-float border border-white/10 shadow-xl transform rotate-45" 
+          style={{ 
+            transform: `rotate(45deg) translate(${mousePosition.x * 0.4}px, ${mousePosition.y * 0.4}px)` 
+          }}
+        />
+        <div 
+          className="absolute bottom-32 right-20 w-20 h-20 bg-gradient-to-r from-pink-400/20 to-cyan-400/20 rounded-full backdrop-blur-sm animate-float border border-white/10 shadow-xl" 
+          style={{ 
+            transform: `translate(${mousePosition.x * -0.3}px, ${mousePosition.y * -0.3}px)` 
+          }}
+        />
       </div>
 
       <div 
         ref={heroRef}
-        className="text-center z-20 relative"
+        className="text-center z-20 relative w-full max-w-6xl mx-auto px-6"
+        style={{ 
+          transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)` 
+        }}
       >
         <div className="animate-fade-in">
           {/* Enhanced name with 3D laptop typing effect */}
           <div className="mb-8 relative">
-            <div className="relative mb-8">
+            <div className="relative mb-12">
               {/* 3D Laptop Frame */}
               <div className="mx-auto w-80 h-52 perspective-1000">
                 <div className="relative w-full h-full transform rotateX-15 rotateY-5 transition-transform duration-1000 hover:rotateX-10 hover:rotateY-10">
@@ -224,15 +282,15 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Improved scroll indicator */}
+      {/* Improved scroll indicator that disappears properly */}
       {showScrollIndicator && (
         <button 
           onClick={scrollToNext}
-          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 group cursor-pointer z-30 transition-all duration-500"
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 group cursor-pointer z-30 transition-all duration-500 animate-bounce"
         >
           <div className="flex flex-col items-center space-y-2">
             <span className="text-white/60 text-xs font-light tracking-wider uppercase">Scroll to Discover</span>
-            <div className="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/20 transition-all duration-300 backdrop-blur-sm animate-bounce">
+            <div className="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/20 transition-all duration-300 backdrop-blur-sm">
               <ChevronDown className="text-white/60 group-hover:text-cyan-400 transition-colors duration-300" size={20} />
             </div>
           </div>
