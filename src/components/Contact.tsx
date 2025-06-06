@@ -123,7 +123,7 @@ export const Contact = () => {
 
               {/* Social Links */}
               <div className="mt-8 flex space-x-4">
-                <a href="https://www.linkedin.com/in/dharunprasadm" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                <a href="https://www.linkedin.com/in/dharunprasad-m-328974228/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
                   <Linkedin className="text-white" size={18} />
                 </a>
                 <a href="https://github.com/MDharunPrasad" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-r from-gray-700 to-gray-900 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
