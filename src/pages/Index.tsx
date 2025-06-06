@@ -21,20 +21,22 @@ const Index = () => {
     // Add smooth scrolling behavior
     document.documentElement.style.scrollBehavior = 'smooth';
     
-    // Advanced cursor effect
+    // Optimized cursor effect with throttling
+    let lastUpdate = 0;
     const handleMouseMove = (e: MouseEvent) => {
-      // Small delay for smoother effect
-      setTimeout(() => {
+      const now = Date.now();
+      if (now - lastUpdate > 16) { // 60fps throttling
         setCursorPosition({ x: e.clientX, y: e.clientY });
-      }, 10);
+        lastUpdate = now;
+      }
     };
     
     const handleMouseDown = () => {
       setCursorClick(true);
-      setTimeout(() => setCursorClick(false), 300);
+      setTimeout(() => setCursorClick(false), 200);
     };
     
-    // Track cursor hover over interactive elements
+    // Optimized hover detection
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isInteractive = 
@@ -47,42 +49,34 @@ const Index = () => {
       setCursorHover(isInteractive);
     };
     
-    // Handle scroll for scroll-to-top button
+    // Throttled scroll handler
+    let scrollTimeout: NodeJS.Timeout;
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > window.innerHeight);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setShowScrollTop(window.scrollY > 400);
+      }, 100);
     };
     
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseover', handleMouseOver);
-    document.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('scroll', handleScroll);
-    
-    // Check for mobile/touch devices and disable custom cursor
+    // Detect mobile/touch devices and disable custom cursor
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (!isTouchDevice) {
+    const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    
+    if (!isTouchDevice && !isLowEndDevice) {
+      document.addEventListener('mousemove', handleMouseMove, { passive: true });
+      document.addEventListener('mouseover', handleMouseOver, { passive: true });
+      document.addEventListener('mousedown', handleMouseDown, { passive: true });
       document.body.style.cursor = 'none';
     }
     
-    // Create parallax effect for elements with parallax class
-    const handleParallax = () => {
-      const parallaxElements = document.querySelectorAll('.parallax');
-      parallaxElements.forEach(element => {
-        const el = element as HTMLElement;
-        const speed = parseFloat(el.dataset.speed || '0.5');
-        const scrollTop = window.scrollY;
-        const translateY = scrollTop * speed * 0.05;
-        el.style.transform = `translateY(${translateY}px)`;
-      });
-    };
-    
-    window.addEventListener('scroll', handleParallax);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseover', handleMouseOver);
       document.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('scroll', handleParallax);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
     };
   }, []);
 
@@ -113,14 +107,13 @@ const Index = () => {
       <Game />
       <Contact />
       
-      {/* Enhanced background elements */}
+      {/* Optimized background elements */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-gradient-to-r from-purple-500/5 to-blue-500/5 rounded-full blur-3xl animate-spin-slow"></div>
+        <div className="absolute top-20 left-20 w-48 h-48 bg-purple-500/5 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-64 h-64 bg-blue-500/5 rounded-full blur-xl animate-pulse delay-1000"></div>
       </div>
       
-      {/* Custom futuristic cursor (hidden on mobile) */}
+      {/* Custom cursor (hidden on mobile/low-end devices) */}
       {!isMobile && (
         <div 
           className={`custom-cursor ${cursorHover ? 'cursor-hover' : ''} ${cursorClick ? 'cursor-click' : ''}`}

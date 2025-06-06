@@ -6,7 +6,7 @@ export const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [typingText, setTypingText] = useState("");
-  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const fullText = "Creative Software Engineer & Digital Artist";
 
@@ -20,39 +20,40 @@ export const Hero = () => {
       } else {
         clearInterval(typingInterval);
       }
-    }, 100);
+    }, 80);
 
-    // Mouse parallax effect
+    // Mouse parallax effect (throttled)
+    let lastMouseUpdate = 0;
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20
-      });
+      const now = Date.now();
+      if (now - lastMouseUpdate > 16) { // 60fps
+        setMousePosition({
+          x: (e.clientX / window.innerWidth - 0.5) * 15,
+          y: (e.clientY / window.innerHeight - 0.5) * 15
+        });
+        lastMouseUpdate = now;
+      }
     };
 
     // Scroll indicator visibility
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      if (scrollPosition < 100) {
-        setShowScrollIndicator(true);
-      } else {
-        setShowScrollIndicator(false);
-      }
+      setShowScrollIndicator(scrollPosition < 200);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial scroll position
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 
-    // Optimized canvas animation
+    // Optimized canvas animation for low-end devices
     const canvas = canvasRef.current;
     if (!canvas) return;
     
     const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
     
-    // Reduce resolution for better performance on low-end devices
-    const pixelRatio = Math.min(window.devicePixelRatio, 1.5);
+    // Reduced resolution for better performance
+    const pixelRatio = Math.min(window.devicePixelRatio, 1.2);
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     
@@ -73,19 +74,19 @@ export const Hero = () => {
       color: string;
     }> = [];
     
-    // Reduced particles count for better performance
-    const particleCount = screenWidth < 768 ? 30 : 50;
+    // Reduced particles for better performance
+    const particleCount = screenWidth < 768 ? 20 : 35;
     
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         z: Math.random() * 1000,
-        vx: (Math.random() - 0.5) * 1,
-        vy: (Math.random() - 0.5) * 1,
-        vz: Math.random() * 3 + 1,
-        size: Math.random() * 2 + 1,
-        color: `hsl(${180 + Math.random() * 60}, 70%, 60%)`
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        vz: Math.random() * 2 + 1,
+        size: Math.random() * 1.5 + 0.5,
+        color: `hsl(${180 + Math.random() * 60}, 70%, ${50 + Math.random() * 30}%)`
       });
     }
     
@@ -101,16 +102,14 @@ export const Hero = () => {
         lastTime = currentTime - (elapsed % frameDelay);
         frameCount++;
         
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
         ctx.fillRect(0, 0, screenWidth, screenHeight);
         
         particles.forEach((particle) => {
-          // Update position
           particle.x += particle.vx;
           particle.y += particle.vy;
           particle.z -= particle.vz;
           
-          // Reset if particle goes off screen
           if (particle.z <= 0) {
             particle.z = 1000;
             particle.x = Math.random() * screenWidth;
@@ -120,19 +119,16 @@ export const Hero = () => {
           if (particle.x < 0 || particle.x > screenWidth) particle.vx *= -1;
           if (particle.y < 0 || particle.y > screenHeight) particle.vy *= -1;
           
-          // 3D projection
-          const scale = 300 / particle.z;
+          const scale = 200 / particle.z;
           const projectedX = particle.x * scale;
           const projectedY = particle.y * scale;
           const projectedSize = particle.size * scale;
           
-          // Only draw if in viewport (performance optimization)
-          if (projectedX > -50 && projectedX < screenWidth + 50 && 
-              projectedY > -50 && projectedY < screenHeight + 50) {
-            // Draw particle
+          if (projectedX > -30 && projectedX < screenWidth + 30 && 
+              projectedY > -30 && projectedY < screenHeight + 30) {
             ctx.fillStyle = particle.color;
             ctx.beginPath();
-            ctx.arc(projectedX, projectedY, Math.max(0.5, projectedSize), 0, Math.PI * 2);
+            ctx.arc(projectedX, projectedY, Math.max(0.3, projectedSize), 0, Math.PI * 2);
             ctx.fill();
           }
         });
@@ -173,27 +169,21 @@ export const Hero = () => {
       {/* Floating geometric shapes with parallax effect */}
       <div className="absolute inset-0 pointer-events-none z-10">
         <div 
-          className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-r from-cyan-400/20 to-violet-400/20 rounded-2xl backdrop-blur-sm animate-float border border-white/10 shadow-xl transform rotate-12" 
+          className="absolute top-20 left-20 w-20 h-20 bg-gradient-to-r from-cyan-400/15 to-violet-400/15 rounded-2xl backdrop-blur-sm animate-float border border-white/10 shadow-lg transform rotate-12" 
           style={{ 
-            transform: `rotate(12deg) translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)` 
+            transform: `rotate(12deg) translate(${mousePosition.x * 0.2}px, ${mousePosition.y * 0.2}px)` 
           }}
         />
         <div 
-          className="absolute top-60 right-32 w-16 h-16 bg-gradient-to-r from-fuchsia-400/20 to-emerald-400/20 rounded-full backdrop-blur-sm animate-float border border-white/10 shadow-xl" 
+          className="absolute top-60 right-32 w-12 h-12 bg-gradient-to-r from-fuchsia-400/15 to-emerald-400/15 rounded-full backdrop-blur-sm animate-float border border-white/10 shadow-lg" 
           style={{ 
-            transform: `translate(${mousePosition.x * -0.2}px, ${mousePosition.y * -0.2}px)` 
+            transform: `translate(${mousePosition.x * -0.15}px, ${mousePosition.y * -0.15}px)` 
           }}
         />
         <div 
-          className="absolute bottom-60 left-32 w-28 h-28 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl backdrop-blur-sm animate-float border border-white/10 shadow-xl transform rotate-45" 
+          className="absolute bottom-60 left-32 w-24 h-24 bg-gradient-to-r from-blue-400/15 to-purple-400/15 rounded-xl backdrop-blur-sm animate-float border border-white/10 shadow-lg transform rotate-45" 
           style={{ 
-            transform: `rotate(45deg) translate(${mousePosition.x * 0.4}px, ${mousePosition.y * 0.4}px)` 
-          }}
-        />
-        <div 
-          className="absolute bottom-32 right-20 w-20 h-20 bg-gradient-to-r from-pink-400/20 to-cyan-400/20 rounded-full backdrop-blur-sm animate-float border border-white/10 shadow-xl" 
-          style={{ 
-            transform: `translate(${mousePosition.x * -0.3}px, ${mousePosition.y * -0.3}px)` 
+            transform: `rotate(45deg) translate(${mousePosition.x * 0.25}px, ${mousePosition.y * 0.25}px)` 
           }}
         />
       </div>
@@ -202,7 +192,7 @@ export const Hero = () => {
         ref={heroRef}
         className="text-center z-20 relative w-full max-w-6xl mx-auto px-6"
         style={{ 
-          transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)` 
+          transform: `translate(${mousePosition.x * 0.05}px, ${mousePosition.y * 0.05}px)` 
         }}
       >
         <div className="animate-fade-in">
@@ -230,8 +220,8 @@ export const Hero = () => {
                           <div>$ echo "Creating magic..."</div>
                           <div className="text-cyan-400">Creating magic...</div>
                           <div>$ whoami</div>
-                          <div className="text-white font-bold text-sm">
-                            {typingText}<span className="animate-pulse">|</span>
+                          <div className="text-white font-bold text-sm bg-gray-800/50 p-1 rounded border-l-2 border-cyan-400">
+                            {typingText}<span className="animate-pulse text-cyan-400">|</span>
                           </div>
                         </div>
                       </div>
@@ -243,14 +233,14 @@ export const Hero = () => {
               </div>
             </div>
 
-            <h1 className="text-6xl md:text-8xl font-black tracking-wider mb-4">
+            <h1 className="text-6xl md:text-8xl font-black tracking-wider mb-4 font-orbitron">
               <span className="relative inline-block">
                 <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent drop-shadow-2xl animate-pulse-glow">
                   DHARUN
                 </span>
               </span>
             </h1>
-            <h1 className="text-4xl md:text-6xl font-light tracking-[0.3em]">
+            <h1 className="text-4xl md:text-6xl font-light tracking-[0.3em] font-rajdhani">
               <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
                 PRASAD M
               </span>
@@ -258,7 +248,7 @@ export const Hero = () => {
           </div>
           
           {/* Enhanced description */}
-          <p className="text-lg text-white/70 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+          <p className="text-lg text-white/70 max-w-2xl mx-auto mb-12 leading-relaxed font-light font-inter">
             Crafting immersive digital experiences through innovative code, stunning design, and cutting-edge technology
           </p>
           
@@ -266,7 +256,7 @@ export const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <button 
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-              className="group relative px-10 py-4 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-xl text-white font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 hover:rotate-1 shadow-xl hover:shadow-cyan-500/25"
+              className="group relative px-10 py-4 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-xl text-white font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 hover:rotate-1 shadow-xl hover:shadow-cyan-500/25 font-rajdhani"
             >
               <span className="relative z-10">Explore My Universe</span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-violet-600 to-fuchsia-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
@@ -274,7 +264,7 @@ export const Hero = () => {
             
             <button 
               onClick={viewResume}
-              className="group relative px-10 py-4 border-2 border-emerald-400 rounded-xl text-emerald-400 font-bold text-lg backdrop-blur-xl bg-emerald-400/10 transition-all duration-500 hover:bg-emerald-400 hover:text-black hover:scale-105 hover:-rotate-1 shadow-lg hover:shadow-emerald-400/25"
+              className="group relative px-10 py-4 border-2 border-emerald-400 rounded-xl text-emerald-400 font-bold text-lg backdrop-blur-xl bg-emerald-400/10 transition-all duration-500 hover:bg-emerald-400 hover:text-black hover:scale-105 hover:-rotate-1 shadow-lg hover:shadow-emerald-400/25 font-rajdhani"
             >
               <span className="relative z-10">View Resume</span>
             </button>
@@ -282,14 +272,14 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Improved scroll indicator that disappears properly */}
+      {/* Improved scroll indicator */}
       {showScrollIndicator && (
         <button 
           onClick={scrollToNext}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 group cursor-pointer z-30 transition-all duration-500 animate-bounce"
         >
           <div className="flex flex-col items-center space-y-2">
-            <span className="text-white/60 text-xs font-light tracking-wider uppercase">Scroll to Discover</span>
+            <span className="text-white/60 text-xs font-light tracking-wider uppercase font-inter">Scroll to Discover</span>
             <div className="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/20 transition-all duration-300 backdrop-blur-sm">
               <ChevronDown className="text-white/60 group-hover:text-cyan-400 transition-colors duration-300" size={20} />
             </div>
