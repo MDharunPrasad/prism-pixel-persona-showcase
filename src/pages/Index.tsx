@@ -35,17 +35,17 @@ const Index = () => {
       setTimeout(() => setCursorClick(false), 200);
     };
     
-    // Optimized hover detection - Fixed TypeScript error
+    // Fixed hover detection - Ensure boolean conversion
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isInteractive = 
         target.tagName === 'BUTTON' || 
         target.tagName === 'A' || 
-        target.closest('button') || 
-        target.closest('a') ||
+        target.closest('button') !== null || 
+        target.closest('a') !== null ||
         target.classList.contains('interactive');
       
-      setCursorHover(Boolean(isInteractive)); // Fixed: Convert to boolean
+      setCursorHover(isInteractive); // Fixed: Now properly returns boolean
     };
     
     // Throttled scroll handler
