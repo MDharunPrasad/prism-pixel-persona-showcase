@@ -27,9 +27,9 @@ export const Hero = () => {
     let lastMouseUpdate = 0;
     const handleMouseMove = (e: MouseEvent) => {
       const now = Date.now();
-      if (now - lastMouseUpdate > 50) { // Less frequent updates
+      if (now - lastMouseUpdate > 50) {
         setMousePosition({
-          x: (e.clientX / window.innerWidth - 0.5) * 5, // Reduced multiplier
+          x: (e.clientX / window.innerWidth - 0.5) * 5,
           y: (e.clientY / window.innerHeight - 0.5) * 5
         });
         lastMouseUpdate = now;
@@ -42,7 +42,6 @@ export const Hero = () => {
       setShowScrollIndicator(scrollPosition < 200);
     };
 
-    // Only add events if not mobile
     const isMobile = window.innerWidth < 768;
     if (!isMobile) {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -73,7 +72,7 @@ export const Hero = () => {
     setShowSurprise(true);
     setTimeout(() => {
       setShowSurprise(false);
-    }, 3000);
+    }, 4000);
   };
 
   return (
@@ -83,7 +82,7 @@ export const Hero = () => {
       
       {/* Minimal animated stars */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(10)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
@@ -97,23 +96,7 @@ export const Hero = () => {
         ))}
       </div>
 
-      {/* Simplified floating shapes */}
-      <div className="absolute inset-0 pointer-events-none z-10">
-        <div 
-          className="absolute top-20 left-20 w-12 h-12 bg-gradient-to-r from-cyan-400/5 to-violet-400/5 rounded-xl border border-white/5" 
-          style={{ 
-            transform: `translate(${mousePosition.x * 0.05}px, ${mousePosition.y * 0.05}px)` 
-          }}
-        />
-        <div 
-          className="absolute bottom-60 right-32 w-8 h-8 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-full border border-white/5" 
-          style={{ 
-            transform: `translate(${mousePosition.x * -0.03}px, ${mousePosition.y * -0.03}px)` 
-          }}
-        />
-      </div>
-
-      {/* Surprise Gift Box - Hide after click */}
+      {/* Surprise Gift Box - Enhanced with better surprise text */}
       {!giftClicked && (
         <div className="absolute top-20 right-20 z-30">
           <button
@@ -122,20 +105,26 @@ export const Hero = () => {
           >
             <Gift className="w-8 h-8 text-yellow-400 transition-all duration-300 group-hover:rotate-12" />
             <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-white/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+              Click me! 🎁
+            </div>
           </button>
         </div>
       )}
 
-      {/* Surprise Message */}
+      {/* Enhanced Surprise Message */}
       {showSurprise && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 text-center animate-scale-in shadow-2xl">
-            <div className="text-6xl mb-4">🎉</div>
+          <div className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-xl p-8 rounded-3xl border border-white/20 text-center animate-scale-in shadow-2xl max-w-md">
+            <div className="text-6xl mb-4 animate-bounce">🎉</div>
             <h3 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-pink-400 bg-clip-text text-transparent mb-4 font-orbitron">
-              Hey! I'm Dharun
+              Surprise! 🎁
             </h3>
-            <p className="text-xl text-white/80 font-rajdhani">
-              Nice to meet you! 🚀
+            <p className="text-xl text-white/80 mb-2 font-rajdhani">
+              Hey! I'm Dharun 👋
+            </p>
+            <p className="text-lg text-white/70 mb-4 font-rajdhani">
+              Nice to meet you! Welcome to my digital universe! 🚀
             </p>
             <div className="mt-6 flex justify-center space-x-2">
               <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"></div>
@@ -154,33 +143,33 @@ export const Hero = () => {
         }}
       >
         <div className="animate-fade-in">
-          {/* Fixed terminal with proper text visibility */}
+          {/* Fixed terminal with better text visibility */}
           <div className="mb-8 relative">
             <div className="relative mb-12">
-              {/* Optimized 3D Laptop Frame */}
-              <div className="mx-auto w-96 h-56 perspective-1000">
+              {/* Optimized 3D Laptop Frame - Made larger */}
+              <div className="mx-auto w-[450px] h-[280px] perspective-1000">
                 <div className="relative w-full h-full transform rotateX-10 transition-transform duration-1000 hover:rotateX-5">
-                  {/* Laptop Screen - Made taller for text visibility */}
-                  <div className="w-full h-44 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
+                  {/* Laptop Screen - Made much larger for better text visibility */}
+                  <div className="w-full h-64 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
                     <div className="absolute inset-1 bg-black rounded-lg">
-                      {/* Terminal Window - Increased padding and text size */}
-                      <div className="p-4 font-mono text-green-400 text-sm">
-                        <div className="flex items-center mb-3">
+                      {/* Terminal Window - Increased size and padding */}
+                      <div className="p-6 font-mono text-green-400 text-base h-full flex flex-col">
+                        <div className="flex items-center mb-4">
                           <div className="flex space-x-1">
-                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                            <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
                           </div>
-                          <span className="ml-3 text-gray-400 text-xs">terminal</span>
+                          <span className="ml-4 text-gray-400 text-sm">terminal</span>
                         </div>
-                        <div className="space-y-2">
-                          <div>$ cd portfolio/</div>
-                          <div>$ echo "Creating magic..."</div>
+                        <div className="space-y-3 flex-1">
+                          <div className="text-green-400">$ cd portfolio/</div>
+                          <div className="text-green-400">$ echo "Creating magic..."</div>
                           <div className="text-cyan-400">Creating magic...</div>
-                          <div>$ whoami</div>
-                          {/* Fixed terminal output with proper spacing */}
-                          <div className="text-white font-bold text-sm bg-gray-800/50 p-2 rounded border-l-2 border-cyan-400">
-                            <div className="text-cyan-400 font-bold leading-relaxed">
+                          <div className="text-green-400">$ whoami</div>
+                          {/* Fixed terminal output with proper sizing and visibility */}
+                          <div className="text-white font-bold text-base bg-gray-800/70 p-4 rounded border-l-4 border-cyan-400 mt-4">
+                            <div className="text-cyan-400 font-bold leading-relaxed text-lg">
                               {typingText}<span className="animate-pulse text-cyan-400">|</span>
                             </div>
                           </div>
@@ -189,7 +178,7 @@ export const Hero = () => {
                     </div>
                   </div>
                   {/* Laptop Base */}
-                  <div className="w-full h-3 bg-gradient-to-br from-gray-800 to-gray-900 rounded-b-xl border-2 border-t-0 border-gray-700 shadow-lg"></div>
+                  <div className="w-full h-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-b-xl border-2 border-t-0 border-gray-700 shadow-lg"></div>
                 </div>
               </div>
             </div>

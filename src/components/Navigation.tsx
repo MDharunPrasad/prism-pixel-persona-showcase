@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -12,7 +11,7 @@ export const Navigation = () => {
       setScrolled(window.scrollY > 50);
       
       // Detect active section
-      const sections = ["home", "about", "skills", "experience", "projects", "services", "game", "contact"];
+      const sections = ["home", "about", "skills", "experience", "projects", "services", "contact"];
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
         if (section) {
@@ -36,7 +35,6 @@ export const Navigation = () => {
     { href: "#experience", label: "Experience" },
     { href: "#projects", label: "Projects" },
     { href: "#services", label: "Services" },
-    { href: "#game", label: "Game" },
     { href: "#contact", label: "Contact" }
   ];
 

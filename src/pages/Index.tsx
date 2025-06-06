@@ -7,6 +7,7 @@ import { Projects } from "@/components/Projects";
 import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
 import { Navigation } from "@/components/Navigation";
+import { TravelingCharacter } from "@/components/TravelingCharacter";
 import { useEffect, useState } from "react";
 import { ChevronUp } from "lucide-react";
 
@@ -24,7 +25,7 @@ const Index = () => {
     let lastUpdate = 0;
     const handleMouseMove = (e: MouseEvent) => {
       const now = Date.now();
-      if (now - lastUpdate > 16) { // 60fps throttling
+      if (now - lastUpdate > 16) {
         setCursorPosition({ x: e.clientX, y: e.clientY });
         lastUpdate = now;
       }
@@ -35,7 +36,7 @@ const Index = () => {
       setTimeout(() => setCursorClick(false), 200);
     };
     
-    // Fixed hover detection - Ensure boolean conversion
+    // Fixed hover detection
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isInteractive = 
@@ -45,7 +46,7 @@ const Index = () => {
         target.closest('a') !== null ||
         target.classList.contains('interactive');
       
-      setCursorHover(isInteractive); // Fixed: Now properly returns boolean
+      setCursorHover(Boolean(isInteractive));
     };
     
     // Throttled scroll handler
@@ -104,6 +105,9 @@ const Index = () => {
       <Projects />
       <Services />
       <Contact />
+      
+      {/* Traveling Character */}
+      <TravelingCharacter />
       
       {/* Minimal background elements for performance */}
       <div className="fixed inset-0 pointer-events-none z-0">
