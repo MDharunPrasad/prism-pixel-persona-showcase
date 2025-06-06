@@ -1,27 +1,58 @@
-
 import { Mail, Phone, MapPin, Send, Linkedin, Github } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import emailjs from '@emailjs/browser';
+import { useToast } from "../hooks/use-toast";
+
+emailjs.init("q3h3rzZEs6JKl_3o7");
 
 export const Contact = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    from_name: '',
+    from_email: '',
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
+    setLoading(true);
+    
+    try {
+      if (!formRef.current) return;
+
+      await emailjs.sendForm(
+        'service_c1rhxr',  // Corrected service ID
+        'template_ivd4olx',
+        formRef.current,
+        'q3h3rzZEs6JKl_3o7'
+      );
+
+      toast({
+        title: "Message sent!",
+        description: "Thank you for your message. I'll get back to you soon!",
+      });
+
+      // Reset form
+      setFormData({ from_name: '', from_email: '', message: '' });
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to send message. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       [e.target.name]: e.target.value
-    });
+    }));
   };
 
   return (
@@ -65,7 +96,7 @@ export const Contact = () => {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Email</p>
-                    <p className="text-white font-semibold">dharunprasad@example.com</p>
+                    <p className="text-white font-semibold">dharunprasad9494@gmail.com</p>
                   </div>
                 </div>
 
@@ -75,7 +106,7 @@ export const Contact = () => {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Phone</p>
-                    <p className="text-white font-semibold">+91 9876543210</p>
+                    <p className="text-white font-semibold">+91 9677689494</p>
                   </div>
                 </div>
 
@@ -85,48 +116,35 @@ export const Contact = () => {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Location</p>
-                    <p className="text-white font-semibold">Chennai, India</p>
+                    <p className="text-white font-semibold">Dindigul, Tamilnadu</p>
                   </div>
                 </div>
               </div>
 
               {/* Social Links */}
-              <div className="mt-8 pt-8 border-t border-white/10">
-                <p className="text-white/60 text-sm mb-4">Follow me on</p>
-                <div className="flex space-x-4">
-                  <a 
-                    href="https://linkedin.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
-                  >
-                    <Linkedin className="text-white" size={20} />
-                  </a>
-                  <a 
-                    href="https://github.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-800 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-gray-500/25"
-                  >
-                    <Github className="text-white" size={20} />
-                  </a>
-                </div>
+              <div className="mt-8 flex space-x-4">
+                <a href="https://www.linkedin.com/in/dharunprasadm" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                  <Linkedin className="text-white" size={18} />
+                </a>
+                <a href="https://github.com/DharunPrasad" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-r from-gray-700 to-gray-900 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                  <Github className="text-white" size={18} />
+                </a>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
           <div className="glass rounded-3xl p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-white/70 text-sm font-medium mb-2">
+                <label htmlFor="from_name" className="block text-white/70 text-sm font-medium mb-2">
                   Your Name
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
+                  id="from_name"
+                  name="from_name"
+                  value={formData.from_name}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
@@ -135,14 +153,14 @@ export const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-white/70 text-sm font-medium mb-2">
+                <label htmlFor="from_email" className="block text-white/70 text-sm font-medium mb-2">
                   Email Address
                 </label>
                 <input
                   type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
+                  id="from_email"
+                  name="from_email"
+                  value={formData.from_email}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
@@ -168,10 +186,17 @@ export const Contact = () => {
 
               <button
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-xl text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-cyan-500/25 flex items-center justify-center space-x-2 font-rajdhani"
+                disabled={loading}
+                className="w-full py-4 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-xl text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-cyan-500/25 flex items-center justify-center space-x-2 font-rajdhani disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send size={20} />
-                <span>Send Message</span>
+                {loading ? (
+                  <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <Send size={20} />
+                    <span>Send Message</span>
+                  </>
+                )}
               </button>
             </form>
           </div>

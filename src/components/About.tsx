@@ -65,12 +65,12 @@ export const About = () => {
               </p>
               
               <p className="text-xl">
-                Currently pursuing my degree while gaining hands-on experience through internships, 
-                I specialize in <span className="text-emerald-400 font-semibold">full-stack development</span> with a focus on modern web technologies and user experience design.
+                Recently comppleted my B.E Computer Science degree while gaining hands-on experience through internships,projects 
+                I specialize in <span className="text-emerald-400 font-semibold">full-stack development and UiUx Designing</span> with a focus on modern web technologies and user experience design.
               </p>
               
               <p className="text-xl">
-                Beyond coding, I'm passionate about <span className="text-fuchsia-400 font-semibold">photography, videography, and digital content creation</span>, 
+                Beyond coding, I'm passionate about <span className="text-fuchsia-400 font-semibold">Editing, typing,  psychology and digital content creation</span>, 
                 which enhances my ability to think creatively and approach problems from unique perspectives.
               </p>
             </div>
@@ -78,13 +78,13 @@ export const About = () => {
             {/* Simplified stats grid - centered */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto">
               <div className="group relative bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:scale-105 transition-all duration-300 text-center">
-                <div className="text-4xl font-black text-white group-hover:text-cyan-400 transition-colors duration-300">50+</div>
+                <div className="text-4xl font-black text-white group-hover:text-cyan-400 transition-colors duration-300">8+</div>
                 <div className="text-white/70 text-sm">Projects Completed</div>
                 <Code className="mx-auto mt-2 text-cyan-400 opacity-50 group-hover:opacity-100 transition-opacity duration-300" size={20} />
               </div>
               
               <div className="group relative bg-gradient-to-br from-violet-500/10 to-purple-500/10 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:scale-105 transition-all duration-300 text-center">
-                <div className="text-4xl font-black text-white group-hover:text-violet-400 transition-colors duration-300">2+</div>
+                <div className="text-4xl font-black text-white group-hover:text-violet-400 transition-colors duration-300">Fresher</div>
                 <div className="text-white/70 text-sm">Years Experience</div>
                 <Lightbulb className="mx-auto mt-2 text-violet-400 opacity-50 group-hover:opacity-100 transition-opacity duration-300" size={20} />
               </div>

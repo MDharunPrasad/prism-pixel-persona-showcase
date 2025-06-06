@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { Lock, Palette, Code, Smartphone, Video, Globe } from "lucide-react";
 
@@ -29,12 +28,16 @@ export const Services = () => {
     return () => observer.disconnect();
   }, []);
 
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const services = [
     {
       title: "Creative Design Bundle",
       description: "Logo, Banner & Thumbnail design package for complete brand identity",
       icon: <Palette className="w-6 h-6" />,
-      price: "₹1,299",
+      price: "₹199",
       color: "from-purple-500 to-violet-500",
       services: ["Logo Design", "Banner Design", "Thumbnail Design"]
     },
@@ -42,23 +45,23 @@ export const Services = () => {
       title: "Website Solutions",
       description: "Complete website development and portfolio creation services",
       icon: <Globe className="w-6 h-6" />,
-      price: "₹4,999",
+      price: "₹3,999",
       color: "from-blue-500 to-cyan-500",
-      services: ["Portfolio Creation", "Complete Websites", "Website Enhancement"]
+      services: ["Portfolio Creation", "Complete Websites"]
     },
     {
       title: "Video Editing Pro",
       description: "Professional video editing for content creators and businesses",
       icon: <Video className="w-6 h-6" />,
-      price: "₹1,499",
+      price: "₹599",
       color: "from-orange-500 to-red-500",
-      services: ["Video Editing", "Motion Graphics", "Color Grading"]
+      services: ["Video Editing"]
     },
     {
       title: "UI/UX Design",
       description: "Modern and intuitive user interface and experience design",
       icon: <Smartphone className="w-6 h-6" />,
-      price: "₹2,499",
+      price: "₹1999",
       color: "from-indigo-500 to-blue-500",
       services: ["UI Design", "UX Research", "Prototyping"]
     }
@@ -109,7 +112,10 @@ export const Services = () => {
                   <div className="text-xl font-black bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
                     {service.price}
                   </div>
-                  <button className="mt-2 px-4 py-1.5 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-lg text-white font-semibold text-xs hover:scale-105 transition-all duration-300 shadow-md">
+                  <button 
+                    onClick={scrollToContact}
+                    className="mt-2 px-4 py-1.5 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-lg text-white font-semibold text-xs hover:scale-105 transition-all duration-300 shadow-md"
+                  >
                     Get Started
                   </button>
                 </div>

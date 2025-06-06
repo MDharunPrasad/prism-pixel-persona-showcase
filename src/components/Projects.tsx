@@ -1,32 +1,31 @@
-
 import { ExternalLink, Github, Eye } from "lucide-react";
 
 export const Projects = () => {
   const projects = [
     {
-      title: "Neural Network Visualizer",
-      description: "Interactive 3D visualization of neural networks with real-time training animation and performance metrics using cutting-edge WebGL technology",
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop&crop=center",
-      tech: ["React", "Three.js", "TypeScript", "WebGL"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Advertisement Banner",
+      description: "A responsive and interactive advertisement banner built with React.js, featuring modern design principles and smooth animations for enhanced user engagement.",
+      image: "/placeholder.svg", // You should add a proper screenshot
+      tech: ["React", "JavaScript", "CSS3", "Responsive Design"],
+      liveUrl: "https://ad-banner-chi.vercel.app/",
+      githubUrl: "https://github.com/MDharunPrasad/ad-banner",
       featured: true
     },
     {
-      title: "AI Code Assistant", 
-      description: "Intelligent code completion and suggestion system powered by machine learning algorithms with real-time code analysis",
-      image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&h=400&fit=crop&crop=center",
-      tech: ["Python", "JavaScript", "OpenAI", "Node.js"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Weather App",
+      description: "Real-time weather application built with React.js and Axios, providing accurate weather information with a clean and intuitive user interface.",
+      image: "/placeholder.svg", // You should add a proper screenshot
+      tech: ["React", "Axios", "Weather API", "JavaScript"],
+      liveUrl: "https://weather-app-rosy-tau-92.vercel.app/",
+      githubUrl: "https://github.com/MDharunPrasad/weather-app",
       featured: true
     },
     {
-      title: "Quantum Portfolio",
-      description: "Award-winning portfolio website with quantum-inspired animations, particle physics simulations, and immersive 3D experiences",
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&crop=center",
-      tech: ["React", "WebGL", "GSAP", "Three.js"],
-      liveUrl: "#",
+      title: "Coffee Estate - Figma Design",
+      description: "A meticulously crafted UI/UX design for a coffee estate website, showcasing modern design trends and attention to user experience.",
+      image: "/placeholder.svg", // You should add a proper screenshot
+      tech: ["Figma", "UI/UX", "Prototyping", "Design Systems"],
+      liveUrl: "https://www.figma.com/design/m9O9RUY7Y6HmO4mRbsm3Nd/Personal?node-id=168-20&t=p4HlPJyKUYIyPPxE-1",
       githubUrl: "#",
       featured: true
     }

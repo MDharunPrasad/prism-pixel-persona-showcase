@@ -46,7 +46,7 @@ export const Experience = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2 mt-6">
-                  {["UI/UX Design", "Software Development", "System Enhancement", "Problem Solving"].map((skill) => (
+                  {["UI/UX Design", "Front-end Development"].map((skill) => (
                     <span 
                       key={skill}
                       className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-full px-3 py-1 text-sm text-white/80 border border-white/10"

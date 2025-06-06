@@ -1,15 +1,13 @@
-
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Gift } from "lucide-react";
 
 export const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const [typingText, setTypingText] = useState("");
-  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showSurprise, setShowSurprise] = useState(false);
   const [giftClicked, setGiftClicked] = useState(false);
-  const fullText = "Creative Software Engineer & Digital Artist";
+  const fullText = "Creative Software Developer & UIUX Designer";
 
   useEffect(() => {
     // Typing animation
@@ -36,22 +34,13 @@ export const Hero = () => {
       }
     };
 
-    // Scroll indicator visibility
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setShowScrollIndicator(scrollPosition < 200);
-    };
-
     const isMobile = window.innerWidth < 768;
     if (!isMobile) {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
     }
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
       clearInterval(typingInterval);
     };
   }, []);
@@ -64,7 +53,7 @@ export const Hero = () => {
   };
 
   const viewResume = () => {
-    window.open('/resume.pdf', '_blank');
+    window.open('/Dharunprasad_M.pdf', '_blank');
   };
 
   const handleGiftClick = () => {
@@ -76,7 +65,7 @@ export const Hero = () => {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24">
       {/* Simple background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950"></div>
       
@@ -147,10 +136,10 @@ export const Hero = () => {
           <div className="mb-8 relative">
             <div className="relative mb-12">
               {/* Optimized 3D Laptop Frame - Made larger */}
-              <div className="mx-auto w-[450px] h-[280px] perspective-1000">
+              <div className="mx-auto w-[600px] h-[320px] perspective-1000 mt-8">
                 <div className="relative w-full h-full transform rotateX-10 transition-transform duration-1000 hover:rotateX-5">
                   {/* Laptop Screen - Made much larger for better text visibility */}
-                  <div className="w-full h-64 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
+                  <div className="w-full h-72 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
                     <div className="absolute inset-1 bg-black rounded-lg">
                       {/* Terminal Window - Increased size and padding */}
                       <div className="p-6 font-mono text-green-400 text-base h-full flex flex-col">
@@ -168,8 +157,8 @@ export const Hero = () => {
                           <div className="text-cyan-400">Creating magic...</div>
                           <div className="text-green-400">$ whoami</div>
                           {/* Fixed terminal output with proper sizing and visibility */}
-                          <div className="text-white font-bold text-base bg-gray-800/70 p-4 rounded border-l-4 border-cyan-400 mt-4">
-                            <div className="text-cyan-400 font-bold leading-relaxed text-lg">
+                          <div className="text-white font-bold text-base bg-gray-800/70 p-4 rounded border-l-4 border-cyan-400 mt-4 w-full">
+                            <div className="text-cyan-400 font-bold leading-relaxed text-lg whitespace-nowrap overflow-hidden">
                               {typingText}<span className="animate-pulse text-cyan-400">|</span>
                             </div>
                           </div>
@@ -202,8 +191,8 @@ export const Hero = () => {
             Crafting immersive digital experiences through innovative code, stunning design, and cutting-edge technology
           </p>
           
-          {/* Enhanced action buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          {/* Enhanced action buttons with better spacing */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
             <button 
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
               className="group relative px-10 py-4 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-xl text-white font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 shadow-xl hover:shadow-cyan-500/25 font-rajdhani"
@@ -220,21 +209,6 @@ export const Hero = () => {
           </div>
         </div>
       </div>
-
-      {/* Improved scroll indicator */}
-      {showScrollIndicator && (
-        <button 
-          onClick={scrollToNext}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 group cursor-pointer z-30 transition-all duration-500 animate-bounce"
-        >
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-white/60 text-xs font-light tracking-wider uppercase font-inter">Scroll to Discover</span>
-            <div className="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/20 transition-all duration-300 backdrop-blur-sm">
-              <ChevronDown className="text-white/60 group-hover:text-cyan-400 transition-colors duration-300" size={20} />
-            </div>
-          </div>
-        </button>
-      )}
     </section>
   );
 };

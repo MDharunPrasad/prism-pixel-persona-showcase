@@ -12,6 +12,17 @@ export const Navigation = () => {
       
       // Detect active section
       const sections = ["home", "about", "skills", "experience", "projects", "services", "contact"];
+      const windowHeight = window.innerHeight;
+      const scrollPosition = window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      // Special handling for the last (contact) section
+      if ((documentHeight - (scrollPosition + windowHeight)) < 100) {
+        setActiveSection("contact");
+        return;
+      }
+
+      // Check other sections
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
         if (section) {
