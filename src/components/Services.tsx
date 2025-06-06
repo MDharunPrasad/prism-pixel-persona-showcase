@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from "react";
-import { Lock, Palette, Code, Smartphone, Video, Globe, Brush } from "lucide-react";
+import { Lock, Palette, Code, Smartphone, Video, Globe } from "lucide-react";
 
 export const Services = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -14,7 +14,7 @@ export const Services = () => {
             cards.forEach((card, index) => {
               setTimeout(() => {
                 card.classList.add('animate-scale-in');
-              }, index * 150);
+              }, index * 100);
             });
           }
         });
@@ -66,10 +66,10 @@ export const Services = () => {
 
   return (
     <section id="services" className="py-16 bg-gradient-to-br from-indigo-950 via-slate-950 to-purple-950 relative overflow-hidden">
-      {/* Simplified background elements */}
+      {/* Minimal background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-10 w-24 h-24 bg-gradient-to-r from-cyan-400/10 to-violet-400/10 rounded-full blur-xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-gradient-to-r from-fuchsia-400/10 to-emerald-400/10 rounded-full blur-xl animate-float delay-1000"></div>
+        <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-cyan-400/5 to-violet-400/5 rounded-full blur-xl"></div>
+        <div className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-r from-fuchsia-400/5 to-emerald-400/5 rounded-full blur-xl"></div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6" ref={sectionRef}>
@@ -86,10 +86,10 @@ export const Services = () => {
           {services.map((service, index) => (
             <div 
               key={index}
-              className="service-card opacity-0 group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-xl p-5 border border-white/20 transition-all duration-500 hover:scale-105 hover:rotate-1 shadow-xl hover:shadow-cyan-500/20"
+              className="service-card opacity-0 group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-xl p-5 border border-white/20 transition-all duration-300 hover:scale-105 shadow-xl"
             >
               <div className="text-center space-y-3">
-                <div className={`w-14 h-14 mx-auto bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-all duration-300 text-white shadow-lg animate-rotating-glow`}>
+                <div className={`w-14 h-14 mx-auto bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-all duration-300 text-white shadow-lg`}>
                   {service.icon}
                 </div>
                 <h3 className="text-base font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
@@ -109,64 +109,37 @@ export const Services = () => {
                   <div className="text-xl font-black bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
                     {service.price}
                   </div>
-                  <button className="mt-2 px-4 py-1.5 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-lg text-white font-semibold text-xs hover:scale-105 transition-all duration-300 shadow-md hover:shadow-cyan-500/20">
+                  <button className="mt-2 px-4 py-1.5 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-lg text-white font-semibold text-xs hover:scale-105 transition-all duration-300 shadow-md">
                     Get Started
                   </button>
                 </div>
               </div>
-              <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-5 rounded-xl transition-all duration-500`}></div>
             </div>
           ))}
         </div>
 
-        {/* Premium Services Section */}
-        <div className="relative bg-gradient-to-br from-black/40 to-purple-900/40 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-center overflow-hidden">
-          {/* Enhanced glowing effects */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  width: `${Math.random() * 200 + 50}px`,
-                  height: `${Math.random() * 200 + 50}px`,
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  background: `radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0) 70%)`,
-                  animation: `pulse-glow ${Math.random() * 5 + 3}s infinite ease-in-out`,
-                  animationDelay: `${Math.random() * 5}s`
-                }}
-              />
-            ))}
-          </div>
-
+        {/* Simplified Premium Services Section */}
+        <div className="relative bg-gradient-to-br from-black/40 to-purple-900/40 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-center">
           <div className="relative mb-6">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full animate-pulse shadow-xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full shadow-xl">
               <Lock size={40} className="text-white" />
             </div>
           </div>
           
-          <h3 className="text-3xl font-black bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent mb-4 animate-pulse-glow">
+          <h3 className="text-3xl font-black bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent mb-4">
             PREMIUM ENTERPRISE SOLUTIONS
           </h3>
           <p className="text-lg text-white/80 mb-6 max-w-2xl mx-auto">
             Advanced consulting and enterprise applications launching soon...
           </p>
           
-          {/* More dynamic sparkle effect */}
           <div className="flex justify-center space-x-4 mb-6">
             {[...Array(5)].map((_, i) => (
               <div 
                 key={i}
-                className="text-yellow-400 animate-pulse"
-                style={{ 
-                  animationDelay: `${i * 0.2}s`,
-                  transform: `scale(${0.8 + Math.random() * 0.4})` 
-                }}
+                className="text-yellow-400"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 3L14.5 8.5L20.5 9L16 13L17.5 19L12 16L6.5 19L8 13L3.5 9L9.5 8.5L12 3Z" fill="currentColor" />
-                </svg>
+                ⭐
               </div>
             ))}
           </div>

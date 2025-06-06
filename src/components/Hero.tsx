@@ -23,14 +23,14 @@ export const Hero = () => {
       }
     }, 80);
 
-    // Mouse parallax effect (throttled for performance)
+    // Minimal mouse parallax effect
     let lastMouseUpdate = 0;
     const handleMouseMove = (e: MouseEvent) => {
       const now = Date.now();
-      if (now - lastMouseUpdate > 32) { // Reduced frequency for better performance
+      if (now - lastMouseUpdate > 50) { // Less frequent updates
         setMousePosition({
-          x: (e.clientX / window.innerWidth - 0.5) * 10, // Reduced multiplier
-          y: (e.clientY / window.innerHeight - 0.5) * 10
+          x: (e.clientX / window.innerWidth - 0.5) * 5, // Reduced multiplier
+          y: (e.clientY / window.innerHeight - 0.5) * 5
         });
         lastMouseUpdate = now;
       }
@@ -73,21 +73,20 @@ export const Hero = () => {
     setShowSurprise(true);
     setTimeout(() => {
       setShowSurprise(false);
-      setGiftClicked(false);
-    }, 4000);
+    }, 3000);
   };
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Simplified background - No canvas for better performance */}
+      {/* Simple background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950"></div>
       
-      {/* Animated stars (CSS only) */}
+      {/* Minimal animated stars */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(10)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
+            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -98,39 +97,34 @@ export const Hero = () => {
         ))}
       </div>
 
-      {/* Floating geometric shapes with parallax effect */}
+      {/* Simplified floating shapes */}
       <div className="absolute inset-0 pointer-events-none z-10">
         <div 
-          className="absolute top-20 left-20 w-16 h-16 bg-gradient-to-r from-cyan-400/10 to-violet-400/10 rounded-2xl backdrop-blur-sm animate-float border border-white/5 shadow-lg transform rotate-12" 
+          className="absolute top-20 left-20 w-12 h-12 bg-gradient-to-r from-cyan-400/5 to-violet-400/5 rounded-xl border border-white/5" 
           style={{ 
-            transform: `rotate(12deg) translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)` 
+            transform: `translate(${mousePosition.x * 0.05}px, ${mousePosition.y * 0.05}px)` 
           }}
         />
         <div 
-          className="absolute top-60 right-32 w-8 h-8 bg-gradient-to-r from-fuchsia-400/10 to-emerald-400/10 rounded-full backdrop-blur-sm animate-float border border-white/5 shadow-lg" 
+          className="absolute bottom-60 right-32 w-8 h-8 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-full border border-white/5" 
           style={{ 
-            transform: `translate(${mousePosition.x * -0.08}px, ${mousePosition.y * -0.08}px)` 
-          }}
-        />
-        <div 
-          className="absolute bottom-60 left-32 w-12 h-12 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-xl backdrop-blur-sm animate-float border border-white/5 shadow-lg transform rotate-45" 
-          style={{ 
-            transform: `rotate(45deg) translate(${mousePosition.x * 0.12}px, ${mousePosition.y * 0.12}px)` 
+            transform: `translate(${mousePosition.x * -0.03}px, ${mousePosition.y * -0.03}px)` 
           }}
         />
       </div>
 
-      {/* Surprise Gift Box */}
-      <div className="absolute top-20 right-20 z-30">
-        <button
-          onClick={handleGiftClick}
-          className={`group relative p-4 rounded-full bg-gradient-to-r from-pink-500/20 to-yellow-500/20 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:scale-110 ${giftClicked ? 'animate-bounce' : 'animate-pulse'}`}
-          disabled={giftClicked}
-        >
-          <Gift className={`w-8 h-8 text-yellow-400 transition-all duration-300 ${giftClicked ? 'animate-spin' : 'group-hover:rotate-12'}`} />
-          <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
-        </button>
-      </div>
+      {/* Surprise Gift Box - Hide after click */}
+      {!giftClicked && (
+        <div className="absolute top-20 right-20 z-30">
+          <button
+            onClick={handleGiftClick}
+            className="group relative p-4 rounded-full bg-gradient-to-r from-pink-500/20 to-yellow-500/20 backdrop-blur-sm border border-white/20 transition-all duration-300 hover:scale-110 animate-pulse"
+          >
+            <Gift className="w-8 h-8 text-yellow-400 transition-all duration-300 group-hover:rotate-12" />
+            <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+          </button>
+        </div>
+      )}
 
       {/* Surprise Message */}
       {showSurprise && (
@@ -156,22 +150,22 @@ export const Hero = () => {
         ref={heroRef}
         className="text-center z-20 relative w-full max-w-6xl mx-auto px-6"
         style={{ 
-          transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)` 
+          transform: `translate(${mousePosition.x * 0.01}px, ${mousePosition.y * 0.01}px)` 
         }}
       >
         <div className="animate-fade-in">
-          {/* Enhanced name with simplified 3D laptop typing effect */}
+          {/* Fixed terminal with proper text visibility */}
           <div className="mb-8 relative">
             <div className="relative mb-12">
-              {/* Simplified 3D Laptop Frame */}
-              <div className="mx-auto w-80 h-48 perspective-1000">
+              {/* Optimized 3D Laptop Frame */}
+              <div className="mx-auto w-96 h-56 perspective-1000">
                 <div className="relative w-full h-full transform rotateX-10 transition-transform duration-1000 hover:rotateX-5">
-                  {/* Laptop Screen */}
-                  <div className="w-full h-36 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
+                  {/* Laptop Screen - Made taller for text visibility */}
+                  <div className="w-full h-44 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-t-xl border-2 border-gray-700 shadow-xl relative overflow-hidden">
                     <div className="absolute inset-1 bg-black rounded-lg">
-                      {/* Terminal Window */}
-                      <div className="p-3 font-mono text-green-400 text-xs">
-                        <div className="flex items-center mb-2">
+                      {/* Terminal Window - Increased padding and text size */}
+                      <div className="p-4 font-mono text-green-400 text-sm">
+                        <div className="flex items-center mb-3">
                           <div className="flex space-x-1">
                             <div className="w-2 h-2 rounded-full bg-red-500"></div>
                             <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
@@ -179,13 +173,14 @@ export const Hero = () => {
                           </div>
                           <span className="ml-3 text-gray-400 text-xs">terminal</span>
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-2">
                           <div>$ cd portfolio/</div>
                           <div>$ echo "Creating magic..."</div>
                           <div className="text-cyan-400">Creating magic...</div>
                           <div>$ whoami</div>
-                          <div className="text-white font-bold text-sm bg-gray-800/50 p-1 rounded border-l-2 border-cyan-400">
-                            <div className="text-cyan-400 font-bold">
+                          {/* Fixed terminal output with proper spacing */}
+                          <div className="text-white font-bold text-sm bg-gray-800/50 p-2 rounded border-l-2 border-cyan-400">
+                            <div className="text-cyan-400 font-bold leading-relaxed">
                               {typingText}<span className="animate-pulse text-cyan-400">|</span>
                             </div>
                           </div>
@@ -201,7 +196,7 @@ export const Hero = () => {
 
             <h1 className="text-6xl md:text-8xl font-black tracking-wider mb-4 font-orbitron">
               <span className="relative inline-block">
-                <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent drop-shadow-2xl animate-pulse-glow">
+                <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent drop-shadow-2xl">
                   DHARUN
                 </span>
               </span>
@@ -222,15 +217,14 @@ export const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <button 
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-              className="group relative px-10 py-4 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-xl text-white font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 hover:rotate-1 shadow-xl hover:shadow-cyan-500/25 font-rajdhani"
+              className="group relative px-10 py-4 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-xl text-white font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 shadow-xl hover:shadow-cyan-500/25 font-rajdhani"
             >
               <span className="relative z-10">Explore My Universe</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-violet-600 to-fuchsia-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
             </button>
             
             <button 
               onClick={viewResume}
-              className="group relative px-10 py-4 border-2 border-emerald-400 rounded-xl text-emerald-400 font-bold text-lg backdrop-blur-xl bg-emerald-400/10 transition-all duration-500 hover:bg-emerald-400 hover:text-black hover:scale-105 hover:-rotate-1 shadow-lg hover:shadow-emerald-400/25 font-rajdhani"
+              className="group relative px-10 py-4 border-2 border-emerald-400 rounded-xl text-emerald-400 font-bold text-lg backdrop-blur-xl bg-emerald-400/10 transition-all duration-500 hover:bg-emerald-400 hover:text-black hover:scale-105 shadow-lg hover:shadow-emerald-400/25 font-rajdhani"
             >
               <span className="relative z-10">View Resume</span>
             </button>
