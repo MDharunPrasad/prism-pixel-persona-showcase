@@ -84,8 +84,8 @@ export const About = () => {
               </div>
               
               <div className="group relative bg-gradient-to-br from-violet-500/10 to-purple-500/10 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:scale-105 transition-all duration-300 text-center">
-                <div className="text-4xl font-black text-white group-hover:text-violet-400 transition-colors duration-300">Fresher</div>
-                <div className="text-white/70 text-sm">Years Experience</div>
+                <div className="text-4xl font-black text-white group-hover:text-violet-400 transition-colors duration-300">5</div>
+                <div className="text-white/70 text-sm">Months Experience</div>
                 <Lightbulb className="mx-auto mt-2 text-violet-400 opacity-50 group-hover:opacity-100 transition-opacity duration-300" size={20} />
               </div>
               
