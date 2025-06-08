@@ -66,7 +66,7 @@ export const About = () => {
               
               <p className="text-xl">
                 Recently comppleted my B.E Computer Science degree while gaining hands-on experience through internships,projects 
-                I specialize in <span className="text-emerald-400 font-semibold">full-stack development and UiUx Designing</span> with a focus on modern web technologies and user experience design.
+                I specialize in <span className="text-emerald-400 font-semibold">front-end evelopment and UiUx Designing</span> with a focus on modern web technologies and user experience design.
               </p>
               
               <p className="text-xl">
