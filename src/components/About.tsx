@@ -61,12 +61,12 @@ export const About = () => {
             <div className="space-y-8 text-white/80 text-xl leading-relaxed text-center">
               <p className="text-2xl font-light">
                 I'm a passionate <span className="bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent font-bold">Software Engineering student</span> with a keen eye for innovation and design. 
-                My journey in technology is driven by curiosity and the desire to create meaningful digital experiences.
+                My journey in technology is driven by curiosity.
               </p>
               
               <p className="text-xl">
                 Recently comppleted my B.E Computer Science degree while gaining hands-on experience through internships,projects 
-                I specialize in <span className="text-emerald-400 font-semibold">front-end evelopment and UiUx Designing</span> with a focus on modern web technologies and user experience design.
+                I specialize in <span className="text-emerald-400 font-semibold">front-end evelopment and UiUx Designing.</span> 
               </p>
               
               <p className="text-xl">
