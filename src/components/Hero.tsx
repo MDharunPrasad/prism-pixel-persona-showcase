@@ -7,7 +7,7 @@ export const Hero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showSurprise, setShowSurprise] = useState(false);
   const [giftClicked, setGiftClicked] = useState(false);
-  const fullText = "Creative Software Developer & UIUX Designer";
+  const fullText = "Creative Front-end Developer & UIUX Designer";
 
   useEffect(() => {
     // Typing animation
@@ -110,10 +110,10 @@ export const Hero = () => {
               Surprise! 🎁
             </h3>
             <p className="text-xl text-white/80 mb-2 font-rajdhani">
-              Hey! I'm Dharun 👋
+              You know what ? 
             </p>
             <p className="text-lg text-white/70 mb-4 font-rajdhani">
-              Nice to meet you! Welcome to my digital universe! 🚀
+              You are Awesome as the way you are !🚀
             </p>
             <div className="mt-6 flex justify-center space-x-2">
               <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"></div>
@@ -155,7 +155,7 @@ export const Hero = () => {
                           <div className="text-green-400">$ cd portfolio/</div>
                           <div className="text-green-400">$ echo "Creating magic..."</div>
                           <div className="text-cyan-400">Creating magic...</div>
-                          <div className="text-green-400">$ whoami</div>
+                          <div className="text-green-400">$ who am i</div>
                           {/* Responsive terminal output */}
                           <div className="text-white font-bold text-sm sm:text-base bg-gray-800/70 p-2 sm:p-4 rounded border-l-4 border-cyan-400 mt-2 sm:mt-4 w-full">
                             <div className="text-cyan-400 font-bold leading-relaxed text-sm sm:text-lg whitespace-nowrap overflow-hidden">
@@ -188,7 +188,7 @@ export const Hero = () => {
           
           {/* Enhanced description */}
           <p className="text-lg text-white/70 max-w-2xl mx-auto mb-12 leading-relaxed font-light font-inter">
-            Crafting immersive digital experiences through innovative code, stunning design, and cutting-edge technology
+            I am 21 Year old Creative Front-end Developer & UIUX Designer from Dindigul,Tamilnadu
           </p>
           
           {/* Enhanced action buttons with better spacing */}
