@@ -83,7 +83,7 @@
   }
 }
 
-/* Performance-optimized Animations with Parallax */
+/* Performance-optimized Animations */
 @keyframes float {
   0%, 100% { 
     transform: translateY(0px) rotate(0deg) scale(1); 
@@ -126,15 +126,6 @@
   }
 }
 
-/* Parallax Optimization */
-@keyframes parallax-drift {
-  0% { transform: translateX(0) translateY(0) rotate(0deg); }
-  25% { transform: translateX(5px) translateY(-3px) rotate(0.5deg); }
-  50% { transform: translateX(0) translateY(-5px) rotate(0deg); }
-  75% { transform: translateX(-3px) translateY(-2px) rotate(-0.3deg); }
-  100% { transform: translateX(0) translateY(0) rotate(0deg); }
-}
-
 /* Enhanced Utility Classes */
 .animate-float {
   animation: float 4s ease-in-out infinite;
@@ -150,10 +141,6 @@
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.animate-parallax-drift {
-  animation: parallax-drift 8s ease-in-out infinite;
 }
 
 /* Font Classes */
@@ -205,14 +192,6 @@ html {
   background: linear-gradient(45deg, #0891b2, #7c3aed);
 }
 
-/* Parallax Performance Optimizations */
-.parallax-section {
-  will-change: transform;
-  backface-visibility: hidden;
-  perspective: 1000px;
-  transform-style: preserve-3d;
-}
-
 /* Performance Optimizations */
 * {
   will-change: auto;
@@ -226,7 +205,6 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    transform: none !important;
   }
 }
 
@@ -244,10 +222,6 @@ html {
 @media (max-width: 768px) {
   body {
     cursor: auto;
-  }
-  
-  .parallax-section {
-    transform: none !important;
   }
 }
 
@@ -347,9 +321,5 @@ html {
   
   .glass {
     backdrop-filter: blur(5px);
-  }
-  
-  .parallax-section {
-    transform: none !important;
   }
 }
