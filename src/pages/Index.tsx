@@ -16,6 +16,7 @@ const Index = () => {
   const [cursorHover, setCursorHover] = useState(false);
   const [cursorClick, setCursorClick] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     // Add smooth scrolling behavior
@@ -49,13 +50,15 @@ const Index = () => {
       setCursorHover(Boolean(isInteractive));
     };
     
-    // Throttled scroll handler
+    // Throttled scroll handler with parallax
     let scrollTimeout: NodeJS.Timeout;
     const handleScroll = () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
-        setShowScrollTop(window.scrollY > 400);
-      }, 100);
+        const currentScrollY = window.scrollY;
+        setScrollY(currentScrollY);
+        setShowScrollTop(currentScrollY > 400);
+      }, 16);
     };
     
     // Detect mobile/touch devices and disable custom cursor
@@ -98,21 +101,106 @@ const Index = () => {
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-black via-slate-900 to-purple-900">
       <Navigation />
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Services />
-      <Contact />
+      
+      {/* Parallax Hero */}
+      <div 
+        className="relative"
+        style={{ 
+          transform: `translateY(${scrollY * 0.1}px)` 
+        }}
+      >
+        <Hero />
+      </div>
+      
+      {/* Parallax About */}
+      <div 
+        className="relative"
+        style={{ 
+          transform: `translateY(${scrollY * 0.05}px)` 
+        }}
+      >
+        <About />
+      </div>
+      
+      {/* Parallax Skills */}
+      <div 
+        className="relative"
+        style={{ 
+          transform: `translateY(${scrollY * 0.08}px)` 
+        }}
+      >
+        <Skills />
+      </div>
+      
+      {/* Parallax Experience */}
+      <div 
+        className="relative"
+        style={{ 
+          transform: `translateY(${scrollY * 0.06}px)` 
+        }}
+      >
+        <Experience />
+      </div>
+      
+      {/* Parallax Projects */}
+      <div 
+        className="relative"
+        style={{ 
+          transform: `translateY(${scrollY * 0.04}px)` 
+        }}
+      >
+        <Projects />
+      </div>
+      
+      {/* Parallax Services */}
+      <div 
+        className="relative"
+        style={{ 
+          transform: `translateY(${scrollY * 0.07}px)` 
+        }}
+      >
+        <Services />
+      </div>
+      
+      {/* Parallax Contact */}
+      <div 
+        className="relative"
+        style={{ 
+          transform: `translateY(${scrollY * 0.03}px)` 
+        }}
+      >
+        <Contact />
+      </div>
       
       {/* Traveling Character */}
       <TravelingCharacter />
       
-      {/* Minimal background elements for performance */}
+      {/* Enhanced parallax background elements */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-purple-500/3 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-blue-500/3 rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div 
+          className="absolute top-20 left-20 w-32 h-32 bg-purple-500/3 rounded-full blur-xl animate-pulse"
+          style={{ 
+            transform: `translateY(${scrollY * 0.15}px) rotate(${scrollY * 0.02}deg)` 
+          }}
+        ></div>
+        <div 
+          className="absolute bottom-20 right-20 w-40 h-40 bg-blue-500/3 rounded-full blur-xl animate-pulse delay-1000"
+          style={{ 
+            transform: `translateY(${scrollY * -0.12}px) rotate(${scrollY * -0.01}deg)` 
+          }}
+        ></div>
+        <div 
+          className="absolute top-1/2 left-1/4 w-24 h-24 bg-cyan-500/2 rounded-full blur-xl"
+          style={{ 
+            transform: `translateY(${scrollY * 0.08}px) translateX(${scrollY * 0.02}px)` 
+          }}
+        ></div>
+        <div 
+          className="absolute bottom-1/3 right-1/3 w-36 h-36 bg-fuchsia-500/2 rounded-full blur-xl"
+          style={{ 
+            transform: `translateY(${scrollY * -0.06}px) translateX(${scrollY * -0.01}px)` 
+          }}
+        ></div>
       </div>
       
       {/* Custom cursor (hidden on mobile/low-end devices) */}
@@ -129,10 +217,13 @@ const Index = () => {
         </div>
       )}
       
-      {/* Scroll to top button */}
+      {/* Scroll to top button with parallax */}
       <button 
         onClick={scrollToTop} 
         className={`scroll-to-top ${showScrollTop ? 'visible' : ''} bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 p-3 rounded-full shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-110`}
+        style={{ 
+          transform: `translateY(${scrollY * -0.02}px) ${showScrollTop ? 'translateY(0)' : 'translateY(20px)'}` 
+        }}
         aria-label="Scroll to top"
       >
         <ChevronUp className="text-white" />
